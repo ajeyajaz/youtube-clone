@@ -4,6 +4,7 @@ import mongoose from "mongoose";
 const videoSchema = new mongoose.Schema({
     channel: {
         type: mongoose.Schema.Types.ObjectId,
+        ref: 'Channel',
         required: true,
         index: true,
     },
@@ -37,6 +38,7 @@ const videoSchema = new mongoose.Schema({
     },
     category:{
         type: mongoose.Schema.Types.ObjectId,
+        ref: 'Category',
         index: true,
         default: null
     }

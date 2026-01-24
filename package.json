@@ -12,6 +12,7 @@
   "type": "module",
   "dependencies": {
     "joi": "^18.0.2",
+    "joi-objectid": "^4.0.2",
     "mongoose": "^9.1.5"
   }
 }
