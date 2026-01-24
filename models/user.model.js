@@ -37,7 +37,9 @@ export function validateUser(value){
         name: joi.string().max(255).required(),
         email: joi.string().max(255).required(),
         password: joi.string().min(8).max(255).required(),
-    })
+    });
+
+    return {error} = schema.validate(value);
 };
 
 
