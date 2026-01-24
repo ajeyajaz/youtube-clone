@@ -15,6 +15,11 @@ const videoSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
+    description: {
+        type: String,
+        maxLength: 1024,
+        default: null,
+    },
     likes: {
         type: number,
         min: 0,
