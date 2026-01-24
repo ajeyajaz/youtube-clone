@@ -26,7 +26,7 @@ const channelSchema = new mongoose.Schema({
 
 }, {timestamps: true});
 
-const Channel = mongoose.model('User', channelSchema);
+const Channel = mongoose.model('Channel', channelSchema);
 
 
 export function validateChannel(value){
