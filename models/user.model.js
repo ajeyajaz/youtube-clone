@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import joi from 'joi';
+import Joi from 'joi';
 
 
 const userSchema = new mongoose.Schema({
@@ -31,15 +31,22 @@ const userSchema = new mongoose.Schema({
 const User = mongoose.model('User', userSchema);
 
 
-export function validateUser(value){
+export function validateUser(value={}){
     
-    const schema = joi.object({
-        name: joi.string().max(255).required(),
-        email: joi.string().max(255).required(),
-        password: joi.string().min(8).max(255).required(),
+    const schema = Joi.object({
+        name: Joi.string().max(255).required(),
+        email: Joi.string().max(255).email().required(),
+        password: Joi.string()
+            .min(8)
+            .max(50)
+            .pattern(/^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]+$/)
+            .required()
+            .messages({
+                'string.pattern.base': 'password must contain alteast one letter , number and special character'
+            })  
     });
 
-    return {error} = schema.validate(value);
+    return schema.validate(value);
 };
 
 

@@ -11,6 +11,8 @@
   "license": "ISC",
   "type": "module",
   "dependencies": {
+    "bcrypt": "^6.0.0",
+    "express": "^4.22.1",
     "joi": "^18.0.2",
     "joi-objectid": "^4.0.2",
     "mongoose": "^9.1.5"
