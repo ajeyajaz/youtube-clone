@@ -31,6 +31,23 @@ const userSchema = new mongoose.Schema({
 const User = mongoose.model('User', userSchema);
 
 
+export async function getUserByEmail(email){
+    return await User.findOne({email});
+};
+
+
+export function createUserInstance(user){
+    try{
+        return new User({
+            ...user
+        });
+    }
+   catch(ex){
+        throw new Error(ex)
+   };
+}
+
+
 export function validateUser(value={}){
     
     const schema = Joi.object({
@@ -39,11 +56,9 @@ export function validateUser(value={}){
         password: Joi.string()
             .min(8)
             .max(50)
-            .pattern(/^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]+$/)
             .required()
-            .messages({
-                'string.pattern.base': 'password must contain alteast one letter , number and special character'
-            })  
+            .pattern(/^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]+$/)
+            .message('password must contain alteast one letter , number and special character')  
     });
 
     return schema.validate(value);
