@@ -1,4 +1,4 @@
-import bcrypt, { compare } from 'bcrypt'
+import bcrypt from 'bcrypt'
 import Joi from 'joi';
 import jwt from 'jsonwebtoken';
 import {validateUser, getUserByEmail, createUserInstance} from '../models/user.model.js'
