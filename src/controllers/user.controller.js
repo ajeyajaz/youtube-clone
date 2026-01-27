@@ -39,7 +39,7 @@ export async function login(req, res) {
     if(!isvalidPass) return res.status(400).send("Invalid email or password.");
 
     //token creation
-    const token = jwt.sign({ _id: user._id }, 'myPrivateKey', {expiresIn: '1hr'});
+    const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET_KEY, {expiresIn: '1hr'});
     return res.json({token});
 }
 
