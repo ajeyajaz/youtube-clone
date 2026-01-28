@@ -11,7 +11,6 @@ const channelSchema = new mongoose.Schema({
     handle: {
         type: String,
         unique: true,
-        maxLength: 255,
         required: true,
     },
     coverImg: {
@@ -20,6 +19,7 @@ const channelSchema = new mongoose.Schema({
     owner: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
+        unique: true,
         required: true,
     },
     subscribers: {
@@ -42,6 +42,11 @@ const Channel = mongoose.model('Channel', channelSchema);
 export async function getChannelByHandle(handle){
     return await Channel.findOne({handle});
 }
+
+export async function getChannelByOwner(owner){
+    return await Channel.findOne({owner});
+}
+
 
 
 export function createChannelInstance(value={}){
