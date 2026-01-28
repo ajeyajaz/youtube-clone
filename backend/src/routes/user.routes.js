@@ -9,7 +9,8 @@ const router = express.Router();
 
 router.post('/register', asynchandler(register));
 router.post('/login', asynchandler(login));
-router.patch('/me/avatar',[authMiddleware, upload.single('avatar')], asynchandler(avatar))
+router.patch('/me/avatar',[authMiddleware, upload.single('avatar')], asynchandler(avatar));
+
 
 
 export default router

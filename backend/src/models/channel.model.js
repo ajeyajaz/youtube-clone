@@ -14,6 +14,9 @@ const channelSchema = new mongoose.Schema({
         maxLength: 255,
         required: true,
     },
+    coverImg: {
+        type: String,
+    },
     owner: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
@@ -24,24 +27,42 @@ const channelSchema = new mongoose.Schema({
         min: 0,
         default: 0
     },
+    videoCount: {
+        type: Number,
+        min: 0,
+        default: 0
+    },
+
 
 }, {timestamps: true});
 
 const Channel = mongoose.model('Channel', channelSchema);
 
 
-export function validateChannel(value){
+export async function getChannelByHandle(handle){
+    return await Channel.findOne({handle});
+}
+
+
+export function createChannelInstance(value={}){
+    return new Channel({
+        ...value
+    })
+}
+
+
+export function validateChannel(value={}){
     
     const schema = joi.object({
-        name: joi.string().max(255).required(),
-        handle: joi.string().max(255).required(),
-    })
-
-    return {error} = schema.validate(value);
+        name: joi.string().min(3).max(255).required(),
+        handle: joi.
+            string().
+            pattern(/^[A-Za-z0-9_-]{3,15}$/)
+            .message('Use 3-15 characters. Only letters, numbers, _ or - are allowed.')
+    });
+    return schema.validate(value);
 };
 
-
-export default Channel;
 
 
 
