@@ -59,7 +59,6 @@ userSchema.methods.isValidPassword = async function (password) {
 
 // returns jwt token
 userSchema.methods.getToken = function () {
-    console.log('private key', process.env);
     return jwt.sign(
         { _id: this._id },
         process.env.JWT_SECRET_KEY,
