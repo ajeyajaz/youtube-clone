@@ -3,9 +3,10 @@ import {
     validateUser,
     getUserByEmail,
     createUserInstance,
-    getUserByUserName
+    getUserByUserName,
+    getUserById
 } from '../models/user.model.js'
-
+import {uploadToCloudinary} from '../utils/cloudinary.js'
 
 
 export async function register(req, res){
@@ -58,3 +59,18 @@ function validateLogin(value={}){
     return schema.validate(value)
 }
 
+
+export async function avatar(req, res){
+
+    console.log('file details', req.file);
+    if(!req.file) return res.status(400).send('file not found...')
+
+   const secure_url = await uploadToCloudinary(req.file.path);
+   
+   const user = await getUserById(req.user._id);
+   console.log('user: ', user)
+   user.avatar = secure_url;
+   await user.save();
+
+   return res.send(user);
+}

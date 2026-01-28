@@ -27,7 +27,7 @@ const userSchema = new mongoose.Schema({
         unique: true,
         maxLength: 255,
         required: true,
-        lower: true
+        lowercase: true
     },
     password: {
         type: String,
@@ -35,7 +35,7 @@ const userSchema = new mongoose.Schema({
         maxLength: 1024, // hashed password
         required: true,
     },
-    avator: {
+    avatar: {
         type: String,
         maxLength: 1024,
         default: null
@@ -59,6 +59,7 @@ userSchema.methods.isValidPassword = async function (password) {
 
 // returns jwt token
 userSchema.methods.getToken = function () {
+    console.log('private key', process.env);
     return jwt.sign(
         { _id: this._id },
         process.env.JWT_SECRET_KEY,
@@ -75,6 +76,10 @@ export async function getUserByEmail(email){
 
 export async function getUserByUserName(userName){
     return await User.findOne({userName});
+};
+
+export async function getUserById(id){
+    return await User.findById(id);
 };
 
 

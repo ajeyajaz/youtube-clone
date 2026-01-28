@@ -1,11 +1,13 @@
 import Joi from "joi";
 import joiObjectid from "joi-objectid";
-import dotenv from 'dotenv'
 import dbConnection from './db/index.js'
 import app from './app.js'
+import {configCloudinary} from './utils/cloudinary.js'
+import 'dotenv/config'
 
-dotenv.config({ path: '../.env'});
 Joi.objectId = joiObjectid(Joi);
+
+configCloudinary();
 
 
 const port = process.env.PORT || 4000;
