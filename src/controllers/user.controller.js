@@ -60,17 +60,23 @@ function validateLogin(value={}){
 }
 
 
+const allowedMimeTypes = {
+  'image/jpeg': 'jpg',
+  'image/png': 'png',
+  'image/webp': 'webp'
+};
 export async function avatar(req, res){
+    if(!req.file) return res.status(400).send('avatar cannot be empty.');
 
-    console.log('file details', req.file);
-    if(!req.file) return res.status(400).send('file not found...')
+    const extension = allowedMimeTypes[req.file.mimetype];
+    if(!extension) return res.status(400).send('invalid image type');
 
-   const secure_url = await uploadToCloudinary(req.file.path);
+    // returns uploaded avatar url from  cloudinary.
+    const avatar = await uploadToCloudinary(req.file.path);
    
-   const user = await getUserById(req.user._id);
-   console.log('user: ', user)
-   user.avatar = secure_url;
-   await user.save();
+    const user = await getUserById(req.user._id);
+    user.avatar = avatar;
+    await user.save();
 
-   return res.send(user);
+    res.send({avatar});
 }
