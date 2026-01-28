@@ -5,6 +5,13 @@ import {
     getChannelByOwner
 } from '../models/channel.model.js'
 
+
+export async function getChannel(req, res) {
+    const channel = await getChannelByHandle(req.params.handle);
+    return res.send(channel ? channel : {})
+}
+
+
 export async function createChannel(req, res){
 
     const {error, value} = validateChannel(req.body);

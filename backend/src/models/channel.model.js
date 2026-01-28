@@ -51,7 +51,7 @@ export async function getChannelByOwner(owner){
 
 export function createChannelInstance(value={}){
     return new Channel({
-        ...value
+        ...value, handle: "@" + value.handle
     })
 }
 
