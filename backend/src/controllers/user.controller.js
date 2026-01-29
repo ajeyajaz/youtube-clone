@@ -7,6 +7,7 @@ import {
     getUserById
 } from '../models/user.model.js'
 import {uploadToCloudinary} from '../utils/cloudinary.js'
+import {allowedMimeTypes} from '../constanst.js'
 
 
 export async function register(req, res){
@@ -45,8 +46,14 @@ export async function login(req, res) {
     const isValid = await user.isValidPassword(value.password);
     if(!isValid) return res.status(400).send("Invalid email or password.");
 
-    const token = user.getToken(); 
-    return res.json({token});
+    const accessToken = user.getAccessToken(); 
+    const refreshToken = user.getRefreshToken();
+
+    res.cookie('refreshToken', refreshToken, {
+        httpOnly: true,
+        secure: true,
+        sameSite: 'strict'
+    }).json({token: accessToken});
 }
 
 
@@ -60,11 +67,6 @@ function validateLogin(value={}){
 }
 
 
-const allowedMimeTypes = {
-  'image/jpeg': 'jpg',
-  'image/png': 'png',
-  'image/webp': 'webp'
-};
 export async function avatar(req, res){
     if(!req.file) return res.status(400).send('avatar cannot be empty.');
 

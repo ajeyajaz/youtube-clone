@@ -40,6 +40,10 @@ const userSchema = new mongoose.Schema({
         maxLength: 1024,
         default: null
     },
+    role: {
+        type: String,
+        default: "user"
+    }
 
 }, {timestamps: true});
 
@@ -57,13 +61,27 @@ userSchema.methods.isValidPassword = async function (password) {
     
 };
 
-// returns jwt token
-userSchema.methods.getToken = function () {
+// jwt Access token
+userSchema.methods.getAccessToken = function () {
+    return jwt.sign(
+        { 
+            _id: this._id,
+            role: this.role
+         },
+        process.env.JWT_SECRET_KEY,
+        {expiresIn: process.env.JWT_REFRESH_TOKEN_EXPIRY});
+};
+
+// jwt Refresh token
+userSchema.methods.getRefreshToken = function(){
     return jwt.sign(
         { _id: this._id },
         process.env.JWT_SECRET_KEY,
-        {expiresIn: process.env.ACESS_TOKEN_EXPIRY});
-};
+        {expiresIn: process.env.ACESS_TOKEN_EXPIRY}
+    );
+}
+
+
 
 
 const User = mongoose.model('User', userSchema);

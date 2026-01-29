@@ -43,10 +43,17 @@ export async function getChannelByHandle(handle){
     return await Channel.findOne({handle});
 }
 
+
 export async function getChannelByOwner(owner){
     return await Channel.findOne({owner});
 }
 
+
+export async function findOneAndUpdateChannel(field, set){
+    return await Channel.findOneAndUpdate({...field}, {
+        $set: set
+    }, {new: true});
+}
 
 
 export function createChannelInstance(value={}){
