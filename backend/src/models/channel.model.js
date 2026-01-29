@@ -14,7 +14,15 @@ const channelSchema = new mongoose.Schema({
         required: true,
     },
     coverImg: {
-        type: String,
+        
+        _id : {
+            type: String,
+            default: null
+        },
+        url: {
+            type: String,
+            default: null
+        }
     },
     owner: {
         type: mongoose.Schema.Types.ObjectId,

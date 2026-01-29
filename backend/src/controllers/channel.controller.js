@@ -39,7 +39,7 @@ export async function createChannel(req, res){
 }
 
 
-export async function coverImage(req, res) {
+export async function updateCoverImage(req, res) {
 
     if(!req.file) return res.status(400).send('coverImg cannot be empty.');
     
@@ -47,11 +47,18 @@ export async function coverImage(req, res) {
     if(!extension) return res.status(400).send('invalid image type');
     
     // returns uploaded coverImage url from  cloudinary.
-    const coverImg = await uploadToCloudinary(req.file.path);
-    const channel = await findOneAndUpdateChannel({owner: req.user._id}, {coverImg});
+    const {public_id, secure_url} = await uploadToCloudinary(req.file.path, 
+        {
+            folder: 'channels',
+            public_id: `cover_${req.user._id}`,
+            overwrite: true
+        });
+
+    const channel = await findOneAndUpdateChannel({owner: req.user._id}, 
+        {"coverImg._id": public_id, "coverImg.url": secure_url});
 
     if(!channel) return res.status(404).send('channel not found.')
 
-    res.status(200).json({coverImg}); 
+    res.status(200).json({coverImage: channel.coverImg}); 
 }
 

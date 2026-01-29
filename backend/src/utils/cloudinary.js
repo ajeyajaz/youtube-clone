@@ -12,16 +12,19 @@ export function configCloudinary(){
 };
     
 
-export async function uploadToCloudinary(filePath) {
+export async function uploadToCloudinary(filePath, options) {
 
   try{
-    const { secure_url } = await cloudinary.uploader.upload(filePath, {resource_type:'auto'});
-    return secure_url;
+    return await cloudinary.uploader.upload(filePath, {...options,resource_type: 'auto'});
   }
   catch(ex){
+    console.log(ex)
     throw new Error('cloudinary: image/video upload failed');
   }
   finally{
     await fs.unlink(filePath).catch(()=> {});
   }
+}
+
+export async function  deleteFromCloudinary(filePath) {
 }

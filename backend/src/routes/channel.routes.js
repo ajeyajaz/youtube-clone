@@ -1,6 +1,6 @@
 import express from 'express';
 import asynHandler from '../utils/asyncHandler.js'
-import {createChannel, getChannel, coverImage} from '../controllers/channel.controller.js'
+import {createChannel, getChannel, updateCoverImage} from '../controllers/channel.controller.js'
 import auth from '../middlewares/auth.middleware.js'
 import {upload} from '../middlewares/multer.middleware.js'
 import createrOnly from '../middlewares/createrOnly.middleware.js'
@@ -16,7 +16,7 @@ router.patch('/cover-image',
         upload.single('coverImg'),
         createrOnly,
     ]
-    , asynHandler(coverImage)
+    , asynHandler(updateCoverImage)
 );
 
 
