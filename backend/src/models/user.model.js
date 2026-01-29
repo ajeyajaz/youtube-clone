@@ -36,9 +36,14 @@ const userSchema = new mongoose.Schema({
         required: true,
     },
     avatar: {
-        type: String,
-        maxLength: 1024,
-        default: null
+        _id : {
+            type: String,
+            default: null
+        },
+        url: {
+            type: String,
+            default: null
+        }
     },
     role: {
         type: String,
@@ -95,10 +100,6 @@ export async function getUserByUserName(userName){
     return await User.findOne({userName});
 };
 
-export async function getUserById(id){
-    return await User.findById(id);
-};
-
 
 export function createUserInstance(user){
     return new User({
@@ -131,7 +132,7 @@ export function validateUser(value={}){
 };
 
 
-export default User;
+export {User};
 
 
 

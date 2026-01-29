@@ -4,7 +4,7 @@ import {
     getUserByEmail,
     createUserInstance,
     getUserByUserName,
-    getUserById
+    User
 } from '../models/user.model.js'
 import {uploadToCloudinary} from '../utils/cloudinary.js'
 import {allowedMimeTypes} from '../constanst.js'
@@ -67,18 +67,23 @@ function validateLogin(value={}){
 }
 
 
-export async function avatar(req, res){
+export async function updateAvatar(req, res){
     if(!req.file) return res.status(400).send('avatar cannot be empty.');
 
     const extension = allowedMimeTypes[req.file.mimetype];
     if(!extension) return res.status(400).send('invalid image type');
 
     // returns uploaded avatar url from  cloudinary.
-    const avatar = await uploadToCloudinary(req.file.path);
+    const {public_id, secure_url} = await uploadToCloudinary(req.file.path,  
+        {
+            folder: 'users',
+            public_id: `avatar_${req.user._id}`,
+            overwrite: true
+        });
    
-    const user = await getUserById(req.user._id);
-    user.avatar = avatar;
-    await user.save();
+    const user = await User.findByIdAndUpdate(req.user._id, {
+        $set:{"avatar._id": public_id, "avatar.url": secure_url}
+    }, {new: true});
 
-    res.send({avatar});
+    res.send({avatar: user.avatar});
 }
