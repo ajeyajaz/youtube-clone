@@ -44,16 +44,30 @@ const channelSchema = new mongoose.Schema({
 
 }, {timestamps: true});
 
+function addHandlePrefix(handle){
+    return '@' + handle
+}
+
+channelSchema.pre('save', function(){
+    if(this.isModified('handle')){
+        this.handle = addHandlePrefix(this.handle);
+    }
+});
+
+channelSchema.pre('findOneAndUpdate', function(){
+    const update = this.getUpdate().$set;
+ 
+    if(update.handle){
+        update.handle = addHandlePrefix(update.handle);
+    };
+});
+
+
 const Channel = mongoose.model('Channel', channelSchema);
 
 
 export async function getChannelByHandle(handle){
-    return await Channel.findOne({handle});
-}
-
-
-export async function getChannelByOwner(owner){
-    return await Channel.findOne({owner});
+    return await Channel.findOne({handle: "@" + handle});
 }
 
 
@@ -63,12 +77,6 @@ export async function findOneAndUpdateChannel(field, set){
     }, {new: true});
 }
 
-
-export function createChannelInstance(value={}){
-    return new Channel({
-        ...value, handle: "@" + value.handle
-    })
-}
 
 
 export function validateChannel(value={}){
@@ -83,7 +91,7 @@ export function validateChannel(value={}){
     return schema.validate(value);
 };
 
-
+export {Channel}
 
 
 

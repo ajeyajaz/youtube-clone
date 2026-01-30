@@ -100,6 +100,10 @@ export async function getUserByUserName(userName){
     return await User.findOne({userName});
 };
 
+export async function getUserById(id){
+    return await User.findById(id);
+};
+
 
 export function createUserInstance(user){
     return new User({
