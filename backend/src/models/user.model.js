@@ -87,30 +87,7 @@ userSchema.methods.getRefreshToken = function(){
 }
 
 
-
-
 const User = mongoose.model('User', userSchema);
-
-
-export async function getUserByEmail(email){
-    return await User.findOne({email});
-};
-
-export async function getUserByUserName(userName){
-    return await User.findOne({userName});
-};
-
-export async function getUserById(id){
-    return await User.findById(id);
-};
-
-
-export function createUserInstance(user){
-    return new User({
-        ...user
-    });
-    
-};
 
 
 export function validateUser(value={}){
