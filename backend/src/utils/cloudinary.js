@@ -15,7 +15,7 @@ export function configCloudinary(){
 export async function uploadToCloudinary(filePath, options) {
 
   try{
-    return await cloudinary.uploader.upload(filePath, {...options,resource_type: 'auto'});
+    return await cloudinary.uploader.upload(filePath, {resource_type: 'auto', ...options});
   }
   catch(ex){
     console.log(ex)

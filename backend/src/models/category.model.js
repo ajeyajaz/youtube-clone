@@ -23,7 +23,7 @@ export function validateCategory(value){
 };
 
 
-export default Category;
+export {Category};
 
 
 
