@@ -3,7 +3,7 @@ import {
     getChannelByHandle,
     Channel
 } from '../models/channel.model.js'
-import {getUserById} from '../models/user.model.js'
+import {getUserById, User} from '../models/user.model.js'
 import {allowedMimeTypes, CREATOR_ROLE} from '../constanst.js'
 import {uploadToCloudinary} from '../utils/cloudinary.js'
 
@@ -14,27 +14,49 @@ export async function getChannel(req, res) {
 }
 
 
-export async function createChannel(req, res){
+export async function createChannel(req, res, next){
 
     const {error, value} = validateChannel(req.body);
     if(error) return res.status(400).send(error.details[0].message);
 
-   if(await Channel.findOne({owner: req.user._id})) 
-        return res.status(400).send('can not create more than one channel.');
+    let channel;
+    const session = await Channel.startSession();
 
-    let channel = await getChannelByHandle(value.handle);
-    if(channel) return res.status(400).send("This handle isn't available");
+    // if it's faols ? rollback : commit
+    try{
+        await session.withTransaction(async()=> {
 
-    channel = new Channel({...value, owner: req.user._id});
-    await channel.save();
+            //create channel
+            channel = new Channel({...value, owner: req.user._id});
+            await channel.save({session});
 
-    // change role to creater
-    const user = await getUserById(req.user._id);
-    user.role = CREATOR_ROLE;
-    await user.save();
+            // update role
+            const user = await User.findByIdAndUpdate(req.user._id, {$set: {
+                role: CREATOR_ROLE
+            },},{session});
 
-    res.status(201).send({channel});
+            if(!user) {
+                throw new Error('user not found.');
+            };
+        });
+    }
+    catch(ex){
+        if(ex.code === 11000){
+            if(ex.keyPattern.handle){
+                return res.status(409).send('this handle not available.');
+            }
+            if(ex.keyPattern.owner){
+                return res.status(409).send('User has a channel.')
+            }
+        }
+        return next(ex); // call error middleware
+    }
+    finally{
+        session.endSession();
+    }
+    return res.status(201).json(channel);
 }
+
 
 
 export async function updateCoverImage(req, res) {
