@@ -4,6 +4,33 @@ import {uploadToCloudinary, deleteFromCloudinary} from '../utils/cloudinary.js'
 import { Video } from '../models/video.model.js';
 import {Channel} from '../models/channel.model.js';
 import {Category} from '../models/category.model.js';
+import mongoose from 'mongoose';
+
+
+export async function getVideos(req, res, next) {
+    const MAXLIMIT = 50;
+    const DEFAULTPAGE = 1;
+    const DEFAULTLIMIT = 10;
+
+    if(!mongoose.isValidObjectId(req.params.channel)) return res.status(200).json([]);
+
+    let page = parseInt(req.query.page, 10);
+    let limit = parseInt(req.query.limit, 10);
+    
+    page = (Number.isInteger(page) && page >= DEFAULTPAGE) ? page : DEFAULTPAGE;
+
+    limit = (Number.isInteger(limit) && limit > 0) ? limit : DEFAULTLIMIT;
+    limit = Math.min(limit, MAXLIMIT);
+    
+    const videos = await Video
+        .find({channel: req.params.channel})
+        .skip((page - 1) * limit)
+        .limit(limit)
+        .sort({createdAt: -1})
+
+    return res.status(200).json(videos);
+}
+
 
 
 export async function uploadVideo(req, res, next) {
