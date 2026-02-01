@@ -1,5 +1,5 @@
 import {ALLOWED_VIDEO_TYPES, ALLOWED_IMAGE_TYPES} from '../constanst.js'
-import {validateVideo} from '../models/video.model.js'
+import {validateUpdateVideo, validateVideo} from '../models/video.model.js'
 import {uploadToCloudinary, deleteFromCloudinary} from '../utils/cloudinary.js'
 import { Video } from '../models/video.model.js';
 import {Channel} from '../models/channel.model.js';
@@ -27,10 +27,9 @@ export async function uploadVideo(req, res, next) {
     if(!channel || channel.owner.toString() !== req.user._id) 
         return res.status(404).send('channel not found.');
 
-    if(value.category){
-        const category = await Category.findById(value.category);
-        if(!category) return res.status(404).send('category not found.');
-    }
+    const category = await Category.findById(value.category);
+    if(!category) return res.status(404).send('category not found.');
+    
 
     let videoId;
     let thumbnailId;
@@ -68,6 +67,71 @@ export async function uploadVideo(req, res, next) {
         
         return next(ex);
     };
+};
+
+export async function updateVideo(req, res, next) {
+    const thumbnail = req.file;
+
+    if(thumbnail){
+        if(!ALLOWED_IMAGE_TYPES[thumbnail.mimetype]) 
+        return res.status(400).send('thumnail file type is not valid.');
+    }
+
+    const {error, value} = validateUpdateVideo(JSON.parse(req.body.videoInfo));
+    if(error) return res.status(400).send(error.details[0].message);
+
+    const category = await Category.findById(value.category);
+    if(!category) return res.status(404).send('category not found.');
+
+    const video =  await Video.findById(value.video);
+    if(!video) return res.status(404).send('video not found.');
+
+    const channel = await Channel.findById(value.channel);
+    if(!channel || channel.owner.toString() !== req.user._id) 
+        return res.status(404).send('channel not found.');
+
+    let newthumbnailId;
+    try{
+        let oldthumbnailId;
+
+        if(thumbnail){
+            oldthumbnailId = video.thumbnail._id;
+
+            const thumbnailUploadRsl = await uploadToCloudinary(thumbnail.path, 
+                {folder:'channels/thumbnails',resource_type: 'image'}
+            );
+            
+            video.thumbnail = {
+                _id: thumbnailUploadRsl.public_id,
+                url: thumbnailUploadRsl.secure_url
+            }
+
+            newthumbnailId = thumbnailUploadRsl.public_id;
+        };
+
+        video.title = value.title;
+        video.description = value.description;
+        video.category = category._id;
+        
+        await video.save();
+
+        // delete old-thumbnail
+       if(oldthumbnailId){
+            await deleteFromCloudinary(oldthumbnailId)
+                .catch(ex => console.error(`could not delete thumbnail -> ${oldthumbnailId}`, ex));
+       }
+
+        return res.status(200).json(video);
+    }
+    catch(ex){
+        // clean new-thumbnail
+        if(newthumbnailId){
+            await deleteFromCloudinary(newthumbnailId)
+                .catch(ex=> console.error(`could not delete thumbnail -> ${newthumbnailId}`, ex));
+        }
+        next(ex);
+    }    
 }
+
 
 
