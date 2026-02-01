@@ -31,7 +31,16 @@ export async function getVideos(req, res, next) {
     return res.status(200).json(videos);
 }
 
+export async function getVideo(req, res, next) {
+    let video = req.params.video;
 
+    if(!mongoose.isValidObjectId(video)) return res.status(404).send('video not found.');
+
+    video = await Video.findById(video);
+    if(!video) return res.status(404).send('video not found.');
+
+    return res.status(200).json(video);
+}
 
 export async function uploadVideo(req, res, next) {
     
