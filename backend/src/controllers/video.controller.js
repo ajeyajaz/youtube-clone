@@ -43,9 +43,9 @@ export async function getVideo(req, res, next) {
 }
 
 export async function uploadVideo(req, res, next) {
-    
-    const video = req.files?.video[0];
-    const thumbnail = req.files?.thumbnail[0];
+
+    const video = req.files?.video && req.files.video[0] ;
+    const thumbnail = req.files?.thumbnail && req.files.thumbnail[0];
 
     if(!video) return res.status(400).send('video is required.');
     if(!thumbnail) return res.status(400).send('thumbnail is required.');
@@ -71,7 +71,7 @@ export async function uploadVideo(req, res, next) {
     let thumbnailId;
 
     try {
-
+        // uploads to cloudinary
         const thumbnailUploadRsl = await uploadToCloudinary(thumbnail.path, 
             {folder:'channels/thumbnails',resource_type: 'image'}
         );
@@ -95,11 +95,14 @@ export async function uploadVideo(req, res, next) {
         return res.status(201).json(videoInstance);
 
     } catch (ex) {
-        if(videoId) await deleteFromCloudinary(videoId)
-            .catch((ex)=> console.error(`could not delete video -> videoId: ${videoId}`, ex));
+        // fire cleanups ? fails to update DB
+        if(videoId) 
+            deleteFromCloudinary(videoId)
+                .catch((ex)=> console.error(`could not delete video -> videoId: ${videoId}`, ex));
 
-        if(thumbnailId) await deleteFromCloudinary(thumbnailId)
-            .catch((ex)=> console.error(`could not delete thumbnail -> thumbnailId: ${thumbnailId}`, ex));
+        if(thumbnailId) 
+            deleteFromCloudinary(thumbnailId)
+                .catch((ex)=> console.error(`could not delete thumbnail -> thumbnailId: ${thumbnailId}`, ex));
         
         return next(ex);
     };

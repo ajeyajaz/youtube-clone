@@ -22,9 +22,12 @@ export async function uploadToCloudinary(filePath, options) {
     throw new Error('cloudinary: image/video upload failed');
   }
   finally{
-    await fs.unlink(filePath).catch(()=> {});
+    // fire cleanup
+    fs.unlink(filePath)
+      .catch((ex)=> console.error('could not delete local file', ex));
   }
 }
+
 
 export async function  deleteFromCloudinary(public_id, options={}) {
     return await cloudinary.uploader.destroy(public_id, options);
