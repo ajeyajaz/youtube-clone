@@ -122,12 +122,14 @@ export async function updateVideo(req, res, next) {
     const category = await Category.findById(value.category);
     if(!category) return res.status(404).send('category not found.');
 
-    const video =  await Video.findById(value.video);
+    const video =  await Video.findById(value.video).populate('channel', 'owner');
     if(!video) return res.status(404).send('video not found.');
 
-    const channel = await Channel.findById(value.channel);
-    if(!channel || channel.owner.toString() !== req.user._id) 
-        return res.status(404).send('channel not found.');
+    if(!video.channel) return res.status(404).send('channel not found.');
+
+    if(video.channel.owner.toString() !== req.user._id)
+        return res.status(403).send('access denied.')
+
 
     let newthumbnailId;
     try{
@@ -154,10 +156,10 @@ export async function updateVideo(req, res, next) {
         
         await video.save();
 
-        // delete old-thumbnail
+        // clean old-thumbnail
        if(oldthumbnailId){
-            await deleteFromCloudinary(oldthumbnailId)
-                .catch(ex => console.error(`could not delete thumbnail -> ${oldthumbnailId}`, ex));
+            deleteFromCloudinary(oldthumbnailId)
+                .catch(ex => console.error(`could not clean thumbnail -> ${oldthumbnailId}`, ex));
        }
 
         return res.status(200).json(video);
@@ -165,8 +167,8 @@ export async function updateVideo(req, res, next) {
     catch(ex){
         // clean new-thumbnail
         if(newthumbnailId){
-            await deleteFromCloudinary(newthumbnailId)
-                .catch(ex=> console.error(`could not delete thumbnail -> ${newthumbnailId}`, ex));
+            deleteFromCloudinary(newthumbnailId)
+                .catch(ex=> console.error(`could not clean thumbnail -> ${newthumbnailId}`, ex));
         }
         next(ex);
     }    

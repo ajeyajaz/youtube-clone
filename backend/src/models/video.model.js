@@ -75,7 +75,6 @@ export function validateUpdateVideo(value={}){
     const schema = Joi.object({
 
         video: Joi.objectId().required(),
-        channel : Joi.objectId().required(),
         title: Joi.string().min(3).max(250).required(),
         description: Joi.string().min(3).max(1024).required(),
         category: Joi.objectId().required()
