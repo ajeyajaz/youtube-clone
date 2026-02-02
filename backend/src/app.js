@@ -4,6 +4,7 @@ import users from './routes/user.routes.js'
 import channels from './routes/channel.routes.js'
 import videos from './routes/video.routes.js'
 import auth from './routes/auth.routes.js'
+import comments from './routes/comment.routes.js'
 import error from './middlewares/error.middleware.js'
 
 
@@ -16,6 +17,7 @@ app.use('/users', users);
 app.use('/channels',channels);
 app.use('/auth', auth);
 app.use('/videos', videos);
+app.use('/comments', comments);
 app.use(error);
 
 

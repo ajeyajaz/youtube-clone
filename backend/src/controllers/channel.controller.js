@@ -5,6 +5,7 @@ import {
 } from '../models/channel.model.js'
 import {allowedMimeTypes, CREATOR_ROLE} from '../constanst.js'
 import {uploadToCloudinary, deleteFromCloudinary} from '../utils/cloudinary.js'
+import {User} from '../models/user.model.js'
 
 
 export async function getChannel(req, res) {

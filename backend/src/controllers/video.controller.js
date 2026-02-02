@@ -60,8 +60,10 @@ export async function uploadVideo(req, res, next) {
     if(error) return res.status(400).send(error.details[0].message);
 
     const channel = await Channel.findById(value.channel);
-    if(!channel || channel.owner.toString() !== req.user._id) 
-        return res.status(404).send('channel not found.');
+    if(!channel) return res.status(404).send('channel not found.')
+    
+    if(channel.owner.toString() !== req.user._id)
+        return res.status(403).send('access denied');
 
     const category = await Category.findById(value.category);
     if(!category) return res.status(404).send('category not found.');

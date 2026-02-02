@@ -33,17 +33,16 @@ commentSchema.index(
 const Comment = mongoose.model('Comment', commentSchema);
 
 
-export function validateComment(value){
+export function validateComment(value={}){
     
     const schema = joi.object({
         video: joi.objectId().required(),
-        user: joi.objectId().required(),
         comment: joi.string().max(1024).required(),
-        parentComment: joi.objectId().required(),
+        parentComment: joi.objectId()
     })
 
-    return {error} = schema.validate(value);
+    return schema.validate(value);
 };
 
 
-export default Comment;
+export {Comment};
