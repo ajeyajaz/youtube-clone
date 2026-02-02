@@ -199,12 +199,22 @@ export async function deletVideo(req, res, next) {
 };
 
 export async function getVideos(req, res, next) {
+    const filter = {};
 
-    const filterQuery = req.query.search || "";
+    const search = req.query.search;
+    const category = req.query.category;
+
+    if(search)filter.title_lc = {$regex: search}
+
+    if(category){
+        if(!mongoose.isValidObjectId(category)) 
+            return res.status(200).json([]);
+        filter.category = category;
+    }
+    
     const {skip, limit} = pagination(req.query.page, req.query.limit);
-
     const videos = await Video
-        .find({title_lc: {$regex: filterQuery}})
+        .find(filter)
         .skip(skip)
         .limit(limit)
         .sort({views: -1});
