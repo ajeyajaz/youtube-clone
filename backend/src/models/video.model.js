@@ -16,7 +16,11 @@ const videoSchema = new mongoose.Schema({
         type: String,
         maxLength: 255,
         required: true,
-        index: true
+    },
+    title_lc: {
+        type: String,
+        index: true,
+        lowercase: true
     },
     thumbnail: {
         _id: {type:String, required:true},
@@ -59,6 +63,12 @@ const videoSchema = new mongoose.Schema({
 
 
 }, {timestamps: true});
+
+videoSchema.pre('save', function(){
+    if(this.isModified('title')){
+        this.title_lc = this.title
+    }
+});
 
 const Video = mongoose.model('Video', videoSchema);
 
