@@ -26,6 +26,6 @@ export async function uploadToCloudinary(filePath, options) {
   }
 }
 
-export async function  deleteFromCloudinary(public_id) {
-    return await cloudinary.uploader.destroy(public_id);
+export async function  deleteFromCloudinary(public_id, options={}) {
+    return await cloudinary.uploader.destroy(public_id, options);
 }

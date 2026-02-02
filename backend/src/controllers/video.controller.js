@@ -169,5 +169,38 @@ export async function updateVideo(req, res, next) {
     }    
 }
 
+export async function deletVideo(req, res, next) {
+
+    // 1 check -> videoId - isValid
+    // 2 get -> video and its channel
+    // 3 check -> channel owner = req.user
+    // 4 delete -> video document.
+    // 5 delete -> thumbnail and video in clodinary
+
+    if(!mongoose.isValidObjectId(req.params.video))
+        return res.status(404).send('video not found.');
+
+    const video = await Video.findById(req.params.video).populate('channel', 'owner');
+
+    if(!video) return res.status(404).send('video not found');
+    if(!video.channel) return res.status(404).send('channel not found.');
+
+    if(video.channel.owner.toString() !== req.user._id)
+            return res.status(403).send('access denied.');
+
+    await video.deleteOne();
+
+    // fire cleanups
+    deleteFromCloudinary(video.thumbnail._id)
+        .catch(ex=> console.error(`could not cleanup -> ${video.thumbnail._id}`, ex));
+
+    deleteFromCloudinary(video.video._id, {resource_type: 'video'})
+        .catch(ex=> console.error(`could not cleanup -> ${video.video._id}`, ex));
+
+    return res.status(200).json(video);
+};
+
+
+
 
 
