@@ -1,6 +1,7 @@
 import {Video} from '../models/video.model.js'
 import { User } from '../models/user.model.js';
 import { validateComment, Comment } from '../models/comment.model.js'
+import mongoose from 'mongoose';
 
 
 export async function addComment(req, res, next) {
@@ -43,4 +44,35 @@ export async function addComment(req, res, next) {
         session.endSession();
     }
     return res.status(201).json(comment);
+}
+
+export async function deleteComment(req, res, next) {
+    
+    if(!mongoose.isValidObjectId(req.params.id))
+        return res.status(404).send('comment not found.');
+
+    const comment = await Comment.findById(req.params.id);
+    if(!comment) return res.status(404).send('comment not found.');
+
+    if(comment.user.toString() !== req.user._id)
+        return res.status(403).send('access denied.');
+
+    // adds a comment  and decrement its count.
+    const session = await Comment.startSession();
+    try{
+         // if any one fails ? rollback : commit
+        await session.withTransaction(async ()=>{
+            
+            await comment.deleteOne({session});
+            await Video.findByIdAndUpdate(comment.video, {
+                $inc: {comments: -1}
+            }, {session});
+
+        });
+    }
+    finally{
+        session.endSession();
+    }
+
+    return res.status(200).json(comment);
 }
