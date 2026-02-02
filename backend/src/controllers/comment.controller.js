@@ -1,6 +1,7 @@
 import {Video} from '../models/video.model.js'
 import { User } from '../models/user.model.js';
 import { validateComment, Comment, validateUpdateComment } from '../models/comment.model.js'
+import pagination from '../utils/pagination.js';
 import mongoose from 'mongoose';
 
 
@@ -96,4 +97,21 @@ export async function updateComment(req, res, next) {
     if(!comment) return res.status(404).send('comment not found.');
 
     return res.status(200).json(comment);
+}
+
+export async function getComments(req, res, next) {
+
+    if(!mongoose.isValidObjectId(req.params.video))
+        return res.status(200).json([]);
+
+    // returns skip and limit
+    const {skip, limit} = pagination(req.query.page, req.query.limit);
+
+    const videos = await Comment
+        .find({video: req.params.video})
+        .skip(skip)
+        .limit(limit)
+        .sort({createdAt: -1});
+   
+    return res.status(200).json(videos); 
 }
