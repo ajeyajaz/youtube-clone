@@ -8,7 +8,7 @@ import pagination from '../utils/pagination.js';
 import mongoose from 'mongoose';
 
 
-export async function getVideos(req, res, next) {
+export async function getChannelVideos(req, res, next) {
     if(!mongoose.isValidObjectId(req.params.channel)) return res.status(200).json([]);
     
     const {skip, limit} = pagination(req.query.page, req.query.limit);
@@ -198,7 +198,19 @@ export async function deletVideo(req, res, next) {
     return res.status(200).json(video);
 };
 
+export async function getVideos(req, res, next) {
 
+    const filterQuery = req.query.search || "";
+    const {skip, limit} = pagination(req.query.page, req.query.limit);
+
+    const videos = await Video
+        .find({title_lc: {$regex: filterQuery}})
+        .skip(skip)
+        .limit(limit)
+        .sort({views: -1});
+
+    return res.status(200).json(videos);
+}
 
 
 
