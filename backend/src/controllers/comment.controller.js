@@ -1,6 +1,6 @@
 import {Video} from '../models/video.model.js'
 import { User } from '../models/user.model.js';
-import { validateComment, Comment } from '../models/comment.model.js'
+import { validateComment, Comment, validateUpdateComment } from '../models/comment.model.js'
 import mongoose from 'mongoose';
 
 
@@ -73,6 +73,27 @@ export async function deleteComment(req, res, next) {
     finally{
         session.endSession();
     }
+
+    return res.status(200).json(comment);
+}
+
+export async function updateComment(req, res, next) {
+    // validate req.body
+    // get - user
+    // get - comment
+    // check - req.user._id = comment.user
+    // update
+    
+    const {error, value} = validateUpdateComment(req.body);
+    if(error) return res.status(400).send(error.details[0].message);
+
+    const user = await User.findById(req.user._id);
+    if(!user) return res.status(404).send('user not found.');
+
+    const comment = await Comment.findOneAndUpdate({_id: value.id, video: value.video, user: user._id},{
+        $set: {comment: value.comment}
+    }, {new: true});
+    if(!comment) return res.status(404).send('comment not found.');
 
     return res.status(200).json(comment);
 }

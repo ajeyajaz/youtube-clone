@@ -44,5 +44,17 @@ export function validateComment(value={}){
     return schema.validate(value);
 };
 
+export function validateUpdateComment(value={}){
+    
+    const schema = joi.object({
+        id: joi.objectId().required(),
+        video: joi.objectId().required(),
+        comment: joi.string().max(1024).required(),
+        parentComment: joi.objectId()
+    })
+
+    return schema.validate(value);
+};
+
 
 export {Comment};
