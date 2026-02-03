@@ -17,7 +17,7 @@ function VideoCard({ video }) {
         <img
           src={video.thumbnail.url}
           alt={video.title}
-          className="h-full w-full object-cover group-hover:scale-101 ease-out duration-400"
+          className="h-full w-full object-cover transition-transform duration-400 group-hover:scale-103"
         />
         {/* Duration */}
         <span className="absolute bottom-1 right-1 rounded bg-black/80 px-1.5 py-0.5 text-xs font-medium">

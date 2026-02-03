@@ -58,7 +58,7 @@ const videoSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Category',
         index: true,
-        default: null
+        required: true
     }
 
 
