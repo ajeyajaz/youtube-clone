@@ -32,7 +32,6 @@
     
     .layout{
         grid-template-areas: "nav nav" "sidebar main" ;
-        background-color: aqua;
     }
     .sidebar{
         display: block;
