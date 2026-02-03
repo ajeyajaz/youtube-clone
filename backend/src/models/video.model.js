@@ -47,7 +47,7 @@ const videoSchema = new mongoose.Schema({
         default: 0
     },
     duration: {
-        type: Number,
+        type: String,
         required: true
     },
     comments: {
@@ -67,6 +67,12 @@ const videoSchema = new mongoose.Schema({
 videoSchema.pre('save', function(){
     if(this.isModified('title')){
         this.title_lc = this.title
+    }
+    if(this.isModified('duration')){
+        const mins = Math.floor(this.duration / 60);
+        const secs = Math.floor(this.duration % 60);
+        
+        this.duration =  `${mins}:${secs.toString().padStart(2, '0')}`;
     }
 });
 

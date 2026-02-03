@@ -29,7 +29,7 @@ function VideoCard({ video }) {
       <div className="mt-2 flex flex-row gap-3 pb-4 px-2 md:px-0 md:pb-0">
         {/* Channel Avatar */}
         <img
-          src={video.thumbnail.url}
+          src={video.channel.owner.avatar.url}
           className="h-9 w-9 rounded-full object-cover"
         />
 
@@ -37,7 +37,7 @@ function VideoCard({ video }) {
         <div className="flex flex-col">
           <h3 className="text-lg font-semibold line-clamp-2">{video.title}</h3>
           <div className="flex items-baseline gap-x-3 gap-y-1 text-sm text-gray-400 md:flex-col">
-            <p className="line-clamp-2">dog master</p>
+            <p className="line-clamp-2">{video.channel.name}</p>
             <p>
               {formatter.format(video.views)} views • {pushlishedDate}
             </p>
