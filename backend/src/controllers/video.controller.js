@@ -215,6 +215,14 @@ export async function getVideos(req, res, next) {
     const {skip, limit} = pagination(req.query.page, req.query.limit);
     const videos = await Video
         .find(filter)
+        .populate({
+            path: "channel",
+            select: "name",
+            populate: {
+                path: 'owner',
+                select: "avatar"
+            }
+        })
         .skip(skip)
         .limit(limit)
         .sort({views: -1});
