@@ -52,8 +52,19 @@
 }
 
 .sidebar-logo{
-    @apply w-5 h-5 md:w-8 md:h-8 
+    @apply w-5 h-5 md:w-7 md:h-7 
 }
 
+.sidebar-menu-heading{
+    @apply text-[1rem] font-semibold py-2 px-3  my-2 rounded-lg cursor-pointer
+}
 
+.sidebar-menu-item{
+    @apply text-sm py-2 px-3 rounded-lg  cursor-pointer 
+}
+
+/* hover effect */
+.hover-eff{
+    @apply hover:bg-gray-800 cursor-pointer
+}
 }
