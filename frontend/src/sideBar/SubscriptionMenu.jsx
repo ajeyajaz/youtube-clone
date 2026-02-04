@@ -17,8 +17,8 @@ function SubscriptionMenu() {
           <li className="sidebar-menu-item flex items-center gap-4 hover-eff">
             <CircleImage
               src={`https://i.pravatar.cc/150?$img=${i}`}
-              w={7}
-              h={7}
+              w={8}
+              h={8}
             />
             <span className="line-clamp-1">Demo channel 1</span>
           </li>
