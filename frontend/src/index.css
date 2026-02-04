@@ -63,7 +63,7 @@
 
 /* hover effect */
 .hover-eff{
-    @apply hover:bg-gray-800 cursor-pointer
+    @apply hover:bg-neutral-700 cursor-pointer
 }
 
 .sidebar-collapased-item{
