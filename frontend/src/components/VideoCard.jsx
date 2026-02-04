@@ -1,4 +1,5 @@
 import formatter from "../services/views-formater";
+import CircleImage from "./CircleImage";
 
 function VideoCard({ video }) {
   const pushlishedDate = new Date(video.createdAt).toLocaleDateString(
@@ -28,11 +29,7 @@ function VideoCard({ video }) {
       {/* Info */}
       <div className="mt-2 flex flex-row gap-3 pb-4 px-2 md:px-0 md:pb-0">
         {/* Channel Avatar */}
-        <img
-          src={video.channel.owner.avatar.url}
-          className="h-9 w-9 rounded-full object-cover"
-        />
-
+        <CircleImage src={video.channel.owner.avatar.url} w={9} h={9}/>
         {/* text */}
         <div className="flex flex-col">
           <h3 className="text-lg font-semibold line-clamp-2">{video.title}</h3>
