@@ -1,3 +1,4 @@
+import Header from "./components/Header";
 import NavBar from "./components/NavBar";
 import VideoGrid from "./components/VideoGrid";
 import SideBar from "./sideBar/SideBar";
@@ -7,9 +8,9 @@ function App() {
   const [expandSidebar, setExpandSidebar] = useState(false);
 
   return (
-    <div className="layout">
+    <div className="layout p-3">
       <div className="nav">
-        <NavBar setExpandSidebar={() => setExpandSidebar(prev => !prev)}/>
+        <Header setExpandSidebar={() => setExpandSidebar(prev => !prev)}/>
       </div>
       <div className="main">
           <VideoGrid/>

@@ -70,4 +70,16 @@
     @apply flex flex-col items-center justify-center text-[8px] md:text-[10px] px-3 py-2 rounded-lg
 }
 
+/* scrollbar */
+
+/* Hide scrollbar but keep scrolling */
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+.scrollbar-hide {
+  -ms-overflow-style: none;  /* IE & Edge */
+  scrollbar-width: none;     /* Firefox */
+}
+
 }
