@@ -1,5 +1,6 @@
 import NavBar from "./components/NavBar";
 import VideoGrid from "./components/VideoGrid";
+import SideBar from "./components/SideBar";
 
 function App() {
   return (
@@ -10,7 +11,9 @@ function App() {
       <div className="main">
           <VideoGrid/>
       </div>
-      <div className="sidebar border w-50">sidebar</div>
+      <div className="sidebar">
+        <SideBar/>
+      </div>
     </div>
   );
 }

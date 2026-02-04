@@ -27,6 +27,10 @@
 
     .sidebar{
         grid-area: sidebar;
+        background-color: #0f0f0f;
+        position: fixed;
+        width: 100%;
+        bottom: 0;
     }
 
 @media screen and (min-width: 768px) {
@@ -37,8 +41,19 @@
     }
     .sidebar{
         display: block;
+        position: relative;
     }
 
 }
+
+/* side-bar logos */
+.logo-container{
+   @apply flex flex-col items-center justify-center text-[8px] md:text-[10px]
+}
+
+.sidebar-logo{
+    @apply w-5 h-5 md:w-8 md:h-8 
+}
+
 
 }
