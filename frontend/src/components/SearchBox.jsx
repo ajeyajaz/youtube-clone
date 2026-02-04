@@ -10,7 +10,7 @@ export default function SearchBox() {
       <div
         className="
           hidden sm:flex items-center h-10
-          w-full max-w-xl
+          w-full
           rounded-full bg-neutral-900 overflow-hidden
           border border-neutral-700
         "

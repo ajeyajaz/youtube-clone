@@ -3,16 +3,38 @@ import { FiMenu } from "react-icons/fi";
 import SearchBox from "./SearchBox";
 import CreateButton from "./CreateBotton";
 import VoiceButton from "./VoiceBotton";
+import UserButton from "./UserButton";
 
-function NavBar({setExpandSidebar}) {
+function NavBar({ setExpandSidebar }) {
   return (
-    <div className="flex py-3">
-        <FiMenu className="hidden w-10 h-10 hover-eff rounded-full p-2 lg:block" onClick={()=> setExpandSidebar()}/>
+    <div className="flex justify-between gap-2">
+      <div className="flex gap-3">
+        <FiMenu
+          className="hidden w-10 h-10 hover-eff rounded-full p-2 lg:block"
+          onClick={() => setExpandSidebar()}
+        />
         <img src={youtubeLogo} alt="youtube-logo" />
-        <SearchBox/>
-        <VoiceButton/>
-        <CreateButton/>       
       </div>
+
+      {/* mobile */}
+      <div className="flex gap-2 sm:hidden">
+        <SearchBox />
+        <VoiceButton />
+        <CreateButton />
+        <UserButton />
+      </div>
+
+      {/* Desktop / Tablet Search */}
+      <div className="hidden gap-3 flex-1 max-w-150 sm:flex">
+        <SearchBox />
+        <VoiceButton />
+      </div>
+
+      <div className="hidden gap-3 sm:flex">
+        <CreateButton />
+        <UserButton />
+      </div>
+    </div>
   );
 }
 
