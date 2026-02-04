@@ -47,9 +47,7 @@
 }
 
 /* side-bar logos */
-.logo-container{
-   @apply flex flex-col items-center justify-center text-[8px] md:text-[10px]
-}
+
 
 .sidebar-logo{
     @apply w-5 h-5 md:w-7 md:h-7 
@@ -67,4 +65,9 @@
 .hover-eff{
     @apply hover:bg-gray-800 cursor-pointer
 }
+
+.sidebar-collapased-item{
+    @apply flex flex-col items-center justify-center text-[8px] md:text-[10px] px-3 py-2 rounded-lg
+}
+
 }

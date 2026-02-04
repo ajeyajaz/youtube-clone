@@ -1,5 +1,6 @@
 import { MdChevronRight } from "react-icons/md";
-import  CircleImage from './CircleImage'
+import  CircleImage from '../components/CircleImage'
+
 function SubscriptionMenu() {
   const channels = new Array(4).fill(0);
 
