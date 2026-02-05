@@ -1,27 +1,24 @@
+import { useState } from "react";
 import Header from "./components/Header";
-import NavBar from "./components/NavBar";
 import VideoGrid from "./components/VideoGrid";
 import SideBar from "./sideBar/SideBar";
-import { useState } from "react";
 
 function App() {
   const [expandSidebar, setExpandSidebar] = useState(false);
 
+  console.log(`md:${expandSidebar ? 'ml-50' : 'ml-25'}`)
+
   return (
-    <div className="layout p-3">
-      <div className="nav">
-        <Header 
-          setExpandSidebar={() => setExpandSidebar(prev => !prev)}
-          isSidebarExpanded={expandSidebar}
-          />
-      </div>
-      <div className="main">
-          <VideoGrid/>
-      </div>
-        <div className={expandSidebar ? 'sidebar expanded': 'sidebar'}>
-          <SideBar isSidebarExpanded={expandSidebar}/>
-        </div>
-    </div>
+    <>
+      <Header
+        setExpandSidebar={() => setExpandSidebar((prev) => !prev)}
+        isSidebarExpanded={expandSidebar}
+      />
+      <SideBar isSidebarExpanded={expandSidebar} />
+      <main className= {expandSidebar ? 'md:ml-50' : 'md:ml-25'}>
+        <VideoGrid />
+      </main>
+    </>
   );
 }
 

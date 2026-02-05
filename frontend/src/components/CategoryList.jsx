@@ -26,7 +26,7 @@ export default function CategoryList() {
 
   return (
     <div className="w-full overflow-x-auto scrollbar-hide">
-      <div className="flex items-center gap-3 px-4 py-2 min-w-max">
+      <div className="flex items-center gap-3 py-2 min-w-max">
         {categories.map((item) => (
           <button
             key={item}
