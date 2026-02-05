@@ -44,4 +44,13 @@
   scrollbar-width: none;     /* Firefox */
 }
 
+/* buttons */
+.black-btn{
+   @apply w-full py-3 rounded-full bg-black text-white font-semibold hover:bg-gray-900 transition cursor-pointer
+}
+
+.white-btn{
+    @apply bg-white text-black w-full py-3 text-center rounded-full border border-gray-300 font-medium hover:bg-gray-50 transition cursor-pointer
+}
+
 }
