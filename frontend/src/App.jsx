@@ -5,9 +5,6 @@ import SideBar from "./sideBar/SideBar";
 
 function App() {
   const [expandSidebar, setExpandSidebar] = useState(false);
-
-  console.log(`md:${expandSidebar ? 'ml-50' : 'ml-25'}`)
-
   return (
     <>
       <Header
@@ -15,7 +12,7 @@ function App() {
         isSidebarExpanded={expandSidebar}
       />
       <SideBar isSidebarExpanded={expandSidebar} />
-      <main className= {expandSidebar ? 'md:ml-50' : 'md:ml-25'}>
+      <main className={expandSidebar ? "md:ml-50" : "md:ml-25"}>
         <VideoGrid />
       </main>
     </>
