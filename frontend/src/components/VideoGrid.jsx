@@ -15,7 +15,7 @@ function VideoGrid() {
   },[]);
 
   return (
-    <div className="grid md:grid-cols-2 lg:grid-cols-3 md:px-2 md:gap-y-3 ">
+    <div className="grid md:grid-cols-2 lg:grid-cols-3 mt-30 md:px-2 md:gap-y-3 ">
       {vidoes.map(v => <VideoCard key={v._id} video={v}/>)}
     </div>
   );

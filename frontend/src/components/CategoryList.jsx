@@ -25,7 +25,7 @@ export default function CategoryList() {
   const [active, setActive] = useState("All");
 
   return (
-    <div className="w-full overflow-x-auto scrollbar-hide pl-22">
+    <div className="w-full overflow-x-auto scrollbar-hide">
       <div className="flex items-center gap-3 px-4 py-2 min-w-max">
         {categories.map((item) => (
           <button

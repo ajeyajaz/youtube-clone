@@ -10,14 +10,17 @@ function App() {
   return (
     <div className="layout p-3">
       <div className="nav">
-        <Header setExpandSidebar={() => setExpandSidebar(prev => !prev)}/>
+        <Header 
+          setExpandSidebar={() => setExpandSidebar(prev => !prev)}
+          isSidebarExpanded={expandSidebar}
+          />
       </div>
       <div className="main">
           <VideoGrid/>
       </div>
-      <div className="sidebar">
-        <SideBar isSidebarExpanded={expandSidebar}/>
-      </div>
+        <div className={expandSidebar ? 'sidebar expanded': 'sidebar'}>
+          <SideBar isSidebarExpanded={expandSidebar}/>
+        </div>
     </div>
   );
 }

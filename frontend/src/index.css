@@ -25,13 +25,13 @@
         grid-area: main;
     }
 
-    .sidebar{
+    /* .sidebar{
         grid-area: sidebar;
         background-color: #0f0f0f;
         position: fixed;
         width: 100%;
         bottom: 0;
-    }
+    } */
 
 @media screen and (min-width: 768px) {
     
@@ -40,8 +40,10 @@
         grid-template-areas: "nav nav" "sidebar main" ;
     }
     .sidebar{
-        display: block;
-        position: relative;
+        width: 60px;
+    }
+    .sidebar.expanded{
+        width: 200px;
     }
 
 }

@@ -1,10 +1,9 @@
-function CircleImage({src, w, h}) {
+function CircleImage({ src, w, h }) {
   return (
-    <img
-          src={src}
-          className={`w-${w} h-${h} rounded-full object-cover`}
-        />
-  )
+    <div className={`w-${w} h-${h} rounded-full overflow-hidden`}>
+      <img src={src} className='w-full h-full'/>
+    </div>
+  );
 }
 
-export default CircleImage
+export default CircleImage;
