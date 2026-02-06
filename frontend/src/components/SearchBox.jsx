@@ -1,6 +1,7 @@
 import { IoSearch, IoClose } from "react-icons/io5";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
+import {setSearch} from '../redux/slices/query.slice'
 
 
 export default function SearchBox() {
@@ -9,7 +10,7 @@ export default function SearchBox() {
   const dispatch = useDispatch();
 
   const onSubmit = () => {
-    dispatch(setSearchText(searchText.trim()));
+    dispatch(setSearch(searchText.trim()));
     setSearchText('');
   };
 

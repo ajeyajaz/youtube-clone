@@ -1,23 +1,23 @@
-import { useEffect, useState } from "react";
+import useVideos from "../hooks/useVideos";
 import VideoCard from "./VideoCard";
-import  apiClient from '../services/api-client'
+import TopLoadingBar from "./TopLoadingBar";
 
 function VideoGrid() {
-  const [vidoes, setVideos] = useState([]);
+  const { data: videos, error, isLoading } = useVideos();
 
-  useEffect(() =>{
-    (() => {
-      apiClient.get('/videos')
-        .then(res => setVideos(res.data))
-        .catch(ex => console.error('could not get vidoes: ', ex))
-    })()
-    
-  },[]);
+  if (error) return <p>{error}</p>;
 
   return (
-    <div className="grid md:grid-cols-2 lg:grid-cols-3 md:px-2 md:gap-y-3 ">
-      {vidoes.map(v => <VideoCard key={v._id} video={v}/>)}
-    </div>
+    <>
+      <div className="grid md:grid-cols-2 lg:grid-cols-3 md:px-2 md:gap-y-3 ">
+        {videos.map((v) => (
+          <VideoCard key={v._id} video={v} />
+        ))}
+      </div>
+
+      {/* loading */}
+        {isLoading && <TopLoadingBar/>}
+    </>
   );
 }
 
