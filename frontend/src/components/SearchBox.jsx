@@ -1,8 +1,17 @@
 import { IoSearch, IoClose } from "react-icons/io5";
 import { useState } from "react";
+import { useDispatch } from "react-redux";
+
 
 export default function SearchBox() {
   const [open, setOpen] = useState(false);
+  const [searchText, setSearchText] = useState("");
+  const dispatch = useDispatch();
+
+  const onSubmit = () => {
+    dispatch(setSearchText(searchText.trim()));
+    setSearchText('');
+  };
 
   return (
     <>
@@ -23,12 +32,15 @@ export default function SearchBox() {
             bg-transparent text-white placeholder-gray-400
             outline-none
           "
+          value={searchText}
+          onChange={(e) => setSearchText(e.target.value)}
         />
 
-
         <button
+          type="submit"
           className="h-full px-5 text-gray-300 bg-neutral-800
                      hover:bg-neutral-700 transition"
+          onClick={() => onSubmit()}
         >
           <IoSearch size={18} />
         </button>
@@ -49,7 +61,10 @@ export default function SearchBox() {
           <div className="absolute top-5 w-full px-2 flex items-center">
             <button
               className="text-gray-300 mr-3"
-              onClick={() => setOpen(false)}
+              onClick={() => {
+                setOpen(false);
+                setSearchText("");
+              }}
             >
               <IoClose size={24} />
             </button>
@@ -63,8 +78,14 @@ export default function SearchBox() {
                   bg-transparent text-white placeholder-gray-400
                   outline-none
                 "
+                value={searchText}
+                onChange={(e) => setSearchText(e.target.value)}
               />
-              <button className="h-full px-4 bg-neutral-800 text-gray-300">
+              <button
+                type="submit"
+                className="h-full px-4 bg-neutral-800 text-gray-300"
+                onClick={() => onSubmit()}
+              >
                 <IoSearch size={18} />
               </button>
             </div>
