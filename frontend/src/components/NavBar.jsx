@@ -13,15 +13,14 @@ function NavBar({ setExpandSidebar }) {
           className="hidden w-10 h-10 hover-eff rounded-full p-2 lg:block"
           onClick={() => setExpandSidebar()}
         />
-        <img src={youtubeLogo} alt="youtube-logo" />
+        <div className="max-w-max w-20  md:w-25">
+          <img src={youtubeLogo} alt="youtube-logo" className="w-full h-full object-contain"/>
+        </div>
       </div>
 
       {/* mobile */}
-      <div className="flex gap-2 sm:hidden">
+      <div className="flex gap-2 flex-1 sm:hidden">
         <SearchBox />
-        <VoiceButton />
-        <CreateButton />
-        <UserButton />
       </div>
 
       {/* Desktop / Tablet Search */}

@@ -6,12 +6,11 @@ import {setSearch} from '../redux/slices/query.slice'
 
 export default function SearchBox() {
   const [open, setOpen] = useState(false);
-  const [searchText, setSearchText] = useState("");
+  const [searchText, setSearchText] = useState('');
   const dispatch = useDispatch();
 
   const onSubmit = () => {
     dispatch(setSearch(searchText.trim()));
-    setSearchText('');
   };
 
   return (
@@ -19,7 +18,7 @@ export default function SearchBox() {
       {/* Desktop / Tablet Search */}
       <div
         className="
-          hidden sm:flex items-center h-10
+          flex items-center h-9
           w-full
           rounded-full bg-neutral-900 overflow-hidden
           border border-neutral-700
@@ -39,25 +38,25 @@ export default function SearchBox() {
 
         <button
           type="submit"
-          className="h-full px-5 text-gray-300 bg-neutral-800
-                     hover:bg-neutral-700 transition"
+          className="h-full px-2 text-gray-300 bg-neutral-800 
+                     hover:bg-neutral-700 transition md:px-4"
           onClick={() => onSubmit()}
         >
           <IoSearch size={18} />
         </button>
       </div>
 
-      {/* Mobile Icon */}
+      {/* Mobile Icon
       <button
         className="sm:hidden p-2 text-gray-300"
         onClick={() => setOpen(true)}
         aria-label="Open search"
       >
         <IoSearch size={22} />
-      </button>
+      </button> */}
 
       {/* Mobile Fullscreen Search */}
-      {open && (
+      {/* {open && (
         <div className="fixed inset-0 z-50 bg-neutral-900 flex items-center">
           <div className="absolute top-5 w-full px-2 flex items-center">
             <button
@@ -92,7 +91,7 @@ export default function SearchBox() {
             </div>
           </div>
         </div>
-      )}
+      )} */}
     </>
   );
 }
