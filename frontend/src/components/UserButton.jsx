@@ -1,8 +1,16 @@
+import { useSelector } from "react-redux";
+import SignInButton from "./SignInButton";
+
+//https://i.pravatar.cc/150?img=12
 export default function UserButton() {
+  const { isAuthenticated, user } = useSelector((state) => state.auth);
+
   return (
-    <button
-      aria-label="User menu"
-      className="
+    <>
+      {isAuthenticated ? (
+        <button
+          aria-label="User menu"
+          className="
         w-9 h-9
         rounded-full
         overflow-hidden
@@ -10,12 +18,14 @@ export default function UserButton() {
         hover-eff
         transition
       "
-    >
-      <img
-        src="https://i.pravatar.cc/150?img=12"
-        alt="User avatar"
-        className="w-full h-full object-cover"
-      />
-    </button>
+        >
+          <img
+            src={user.avatar?.url || `https://ui-avatars.com/api/?name=${user.userName}&size=128&background=0f0f0f&color=ffffff`}
+            alt="User avatar"
+            className="w-full h-full object-cover"
+          />
+        </button>
+      ) : <SignInButton/>}
+    </>
   );
 }

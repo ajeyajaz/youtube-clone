@@ -1,6 +1,6 @@
 import { joiResolver } from "@hookform/resolvers/joi";
 import { useForm } from "react-hook-form";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import ErrorMessage from "../components/ErrorMessage";
 import ErrorToast from "../components/ErrorToast";
 import InputField from "./InputField";
@@ -9,7 +9,6 @@ import { loginSchema } from "./validationSchema";
 
 function Login() {
   const {error, setError, isLoading, login} = useLogin();
-  const navigate = useNavigate();
   
   const {
     register,
@@ -20,7 +19,7 @@ function Login() {
   });
 
   const onSubmit = async (data) => {
-    await login(data).then(()=> navigate('/')).catch(()=> {});
+    await login(data);
   }
 
   if(isLoading) return <p>Loading...</p>
