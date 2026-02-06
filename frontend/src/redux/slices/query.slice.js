@@ -10,7 +10,7 @@ export const querSlice = createSlice({
       state.search = action.payload;
     },
     setCategory: (state, action) => {
-      state.setCategory = action.payload;
+      state.category = action.payload;
     },
   },
 })

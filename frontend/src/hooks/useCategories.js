@@ -1,15 +1,14 @@
 import { useEffect, useState} from "react";
 import apiClient from "../services/api-client";
-import { useSelector } from 'react-redux'
 
 
-const useVideos = () => {
+
+const useCategories = () => {
 
     const [data, setData] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState('');
-    const search = useSelector(state => state.query.search);
-    const category = useSelector(state => state.query.category);
+    
 
     useEffect(() => {
 
@@ -19,8 +18,8 @@ const useVideos = () => {
         const fetch = async () => {
             
             try{
-                const { data: result } = await apiClient.get('/videos', {params: {search, category}});
-                setData(result);
+                const { data: result } = await apiClient.get('/categories');
+                setData([{_id:null, name: 'All'}, ...result]);
             }
             catch(ex){
                 console.log(ex)
@@ -33,10 +32,10 @@ const useVideos = () => {
 
         fetch()
 
-    }, [search])
+    }, [])
 
     return {data, error, isLoading}
 
 }
 
-export default useVideos;
+export default useCategories;
