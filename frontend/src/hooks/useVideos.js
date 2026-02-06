@@ -33,7 +33,7 @@ const useVideos = () => {
 
         fetch()
 
-    }, [search])
+    }, [search, category])
 
     return {data, error, isLoading}
 

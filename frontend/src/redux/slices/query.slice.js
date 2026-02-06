@@ -1,6 +1,9 @@
 import { createSlice } from '@reduxjs/toolkit'
 
-const initialState = {}
+const initialState = {
+  search : '',
+  category: null
+}
 
 export const querSlice = createSlice({
   name: 'user',
@@ -8,6 +11,7 @@ export const querSlice = createSlice({
   reducers: {
     setSearch: (state, action) => {
       state.search = action.payload;
+      state.category = null;
     },
     setCategory: (state, action) => {
       state.category = action.payload;
