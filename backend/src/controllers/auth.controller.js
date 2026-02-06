@@ -19,3 +19,17 @@ export async function refresh(req, res){
         return res.status(400).send('invalid refresh token.');
     }
 }
+
+
+export async function getCurrentUser(req, res) {
+    
+    const user = await User.findById(req.user._id);
+    if(!user) return res.status(404).send('user not found.');
+
+    return res.status(200).json({
+        _id: user._id,
+        userName: user.userName,
+        role: user.role,
+        avatar: user.avatar
+    });
+}
