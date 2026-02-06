@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import apiClient from "../services/api-client";
 import { useDispatch } from 'react-redux';
-import { login as userLogin } from '../redux/slices/auth.slice'
+import { setUser } from '../redux/slices/auth.slice'
 
 export default () => {
     const [error, setError] = useState('');
@@ -20,7 +20,7 @@ export default () => {
             localStorage.setItem('accessToken', response.data.token);
 
             const user = await apiClient.get('/auth/me');
-            dispatch(userLogin(user));
+            dispatch(setUser(user));
             
             navigate('/');
         } catch (ex) {

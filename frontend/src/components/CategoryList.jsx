@@ -8,17 +8,7 @@ const categories = [
   "Mantras",
   "Irshad Kamil",
   "Live",
-  "Mixes",
-  "Arijit Singh",
-  "Movie musicals",
-  "Data Structures",
-  "progamming",
-  "Django",
-  "Arijit Singh",
-  "Movie musicals",
-  "Data Structures",
-  "progamming",
-  "Django",
+  "Mixes"
 ];
 
 export default function CategoryList() {

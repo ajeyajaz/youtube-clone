@@ -1,7 +1,6 @@
 import { useSelector } from "react-redux";
 import SignInButton from "./SignInButton";
 
-//https://i.pravatar.cc/150?img=12
 export default function UserButton() {
   const { isAuthenticated, user } = useSelector((state) => state.auth);
 
@@ -20,11 +19,11 @@ export default function UserButton() {
       "
         >
           <img
-            src={user.avatar?.url || `https://ui-avatars.com/api/?name=${user.userName}&size=128&background=0f0f0f&color=ffffff`}
+            src={user?.avatar?.url || `https://ui-avatars.com/api/?name=${user?.userName}&size=128&background=0f0f0f&color=ffffff`}
             alt="User avatar"
             className="w-full h-full object-cover"
           />
-        </button>
+        </button> 
       ) : <SignInButton/>}
     </>
   );
