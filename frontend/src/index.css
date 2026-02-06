@@ -53,4 +53,26 @@
     @apply bg-white text-black w-full py-3 text-center rounded-full border border-gray-300 font-medium hover:bg-gray-50 transition cursor-pointer
 }
 
+/* loading bar */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer utilities {
+  @keyframes expand-bar {
+    0% {
+      width: 0%;
+    }
+    100% {
+      width: 90%;
+    }
+  }
+
+  .animate-expand-bar {
+    animation: expand-bar 1.2s ease-out forwards;
+  }
+}
+
+
+
 }
