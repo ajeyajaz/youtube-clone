@@ -1,7 +1,7 @@
 import { useState } from "react";
 import Header from "./components/Header";
-import VideoGrid from "./components/VideoGrid";
 import SideBar from "./sideBar/SideBar";
+import { Outlet } from "react-router-dom";
 
 function App() {
   const [expandSidebar, setExpandSidebar] = useState(false);
@@ -12,8 +12,9 @@ function App() {
         isSidebarExpanded={expandSidebar}
       />
       <SideBar isSidebarExpanded={expandSidebar} />
-      <main className={expandSidebar ? "md:ml-50" : "md:ml-25"}>
-        <VideoGrid />
+     
+      <main className={`mt-34 mb-15 ${expandSidebar ? "md:ml-50" : "md:ml-25"}`}>
+          <Outlet/>
       </main>
     </>
   );

@@ -7,12 +7,16 @@ import LoginPage from './auth/LoginPage'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { store } from './redux/store'
 import { Provider } from 'react-redux'
-
+import VideoGrid from './components/VideoGrid.jsx'
+import EmptyAuthState from './components/EmptyAuthState.jsx'
 
 const router = createBrowserRouter([
     {
-      path: '/',
-      element: <App/>
+     element: <App/>,
+     children: [
+      { index: true, element: <VideoGrid/>},
+      {path: 'feed/you', element: <EmptyAuthState/>}
+     ]
     },
     {
       path: '/users/register',
