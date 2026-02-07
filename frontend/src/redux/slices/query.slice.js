@@ -6,7 +6,7 @@ const initialState = {
 }
 
 export const querSlice = createSlice({
-  name: 'user',
+  name: 'query',
   initialState,
   reducers: {
     setSearch: (state, action) => {

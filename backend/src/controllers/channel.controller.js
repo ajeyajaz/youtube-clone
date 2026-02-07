@@ -22,7 +22,7 @@ export async function createChannel(req, res, next){
             return res.status(400).send('file type is not valid.');
     }
 
-    const {error, value} = validateChannel(JSON.parse(req.body.channel));
+    const {error, value} = validateChannel(JSON.parse(req.body.channel || "{}" ));
     if(error) return res.status(400).send(error.details[0].message);
 
 
