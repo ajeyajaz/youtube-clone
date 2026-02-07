@@ -4,8 +4,13 @@ import SearchBox from "./SearchBox";
 import CreateButton from "./CreateBotton";
 import VoiceButton from "./VoiceBotton";
 import UserButton from "./UserButton";
+import SignInButton from "./SignInButton";
+import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 
 function NavBar({ setExpandSidebar }) {
+  const { isAuthenticated } = useSelector((state) => state.auth);
+
   return (
     <div className="flex justify-between gap-2">
       <div className="flex gap-3">
@@ -13,9 +18,13 @@ function NavBar({ setExpandSidebar }) {
           className="hidden w-10 h-10 hover-eff rounded-full p-2 lg:block"
           onClick={() => setExpandSidebar()}
         />
-        <div className="max-w-max w-20  md:w-25">
-          <img src={youtubeLogo} alt="youtube-logo" className="w-full h-full object-contain"/>
-        </div>
+        <Link className="max-w-max w-20  md:w-25" to="/">
+          <img
+            src={youtubeLogo}
+            alt="youtube-logo"
+            className="w-full h-full object-contain"
+          />
+        </Link>
       </div>
 
       {/* mobile */}
@@ -31,7 +40,7 @@ function NavBar({ setExpandSidebar }) {
 
       <div className="hidden gap-3 sm:flex">
         <CreateButton />
-        <UserButton />
+        {isAuthenticated ? <UserButton /> : <SignInButton />}
       </div>
     </div>
   );
