@@ -6,11 +6,18 @@ import {
 import {allowedMimeTypes, CREATOR_ROLE} from '../constanst.js'
 import {uploadToCloudinary, deleteFromCloudinary} from '../utils/cloudinary.js'
 import {User} from '../models/user.model.js'
+import {Video} from '../models/video.model.js'
 
 
 export async function getChannel(req, res) {
+    
     const channel = await getChannelByHandle(req.params.handle);
-    return res.status(200).json(channel ? channel : {});
+    if(!channel) return res.status(404).send('channel not found.');
+
+    const videos = await Video.find({channel: channel._id});
+    channel.videos = videos;
+    
+    return res.status(200).json({...channel.toObject(), videos});
 }
 
 

@@ -2,7 +2,7 @@ import { useSelector } from "react-redux";
 import CircleImage from "../components/CircleImage";
 import { useState } from "react";
 import CreateChannelModal from './CreateChannelModal';
-import useChannel from "./useChannel";
+import useCreateChannel from "./useCreateChannel";
 import TopLoadingBar from '../components/TopLoadingBar'
 import ErrorToast from '../components/ErrorToast'
 
@@ -10,7 +10,7 @@ import ErrorToast from '../components/ErrorToast'
 function UserProfile() {
   const [clickCreateChannel, setClickCreateChannel] = useState(false);
   const { user } = useSelector((state) => state.auth);
-  const {create, isLoading, error, setError} = useChannel()
+  const {create, isLoading, error, setError} = useCreateChannel()
 
   return (
     <section className="w-full px-6 py-6">

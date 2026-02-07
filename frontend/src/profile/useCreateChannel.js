@@ -9,13 +9,20 @@ export default () => {
     
     const [error, setError] = useState('');
     const [isLoading, setIsLoading] = useState(false);
+    const navigate = useNavigate();
     const dispatch = useDispatch();
 
   
+    const create = async (data) => {
+        try {
             setIsLoading(true);
             setError('');
 
-            const { data: channel } = await apiClient.get('/channels');
+            const { data: channel } = await apiClient.post('/channels', data , {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+            });
             console.log('channel: ', channel);
             
             // role updated -> creator -> get new access token

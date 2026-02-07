@@ -1,9 +1,13 @@
+import { useSelector } from "react-redux";
 
 function UserProfile() {
+
+  const channel = useSelector(state => state.channel);
+  console.log('channel',channel);
+
   return (
     <section className="w-full px-6 py-6">
       <div className="flex items-center gap-6">
-        
         {/* Avatar */}
         <div className="w-24 h-24 rounded-full bg-orange-500 flex items-center justify-center text-white text-4xl font-semibold">
           I
@@ -11,8 +15,8 @@ function UserProfile() {
 
         {/* Info */}
         <div className="flex flex-col gap-1">
-          <h1 className="text-2xl font-bold">Creator</h1>
-          <p className="text-sm text-gray-400">Creator12739</p>
+          <h1 className="text-2xl font-bold">{channel.name}</h1>
+          <p className="text-sm text-gray-400">{channel.handle}</p>
 
           <p className="text-sm text-gray-400">
             More about this channel...

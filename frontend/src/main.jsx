@@ -10,14 +10,17 @@ import { Provider } from 'react-redux'
 import VideoGrid from './components/VideoGrid'
 import EmptyAuthState from './components/EmptyAuthState'
 import Profile from './profile/Profile'
+import ChannelPage from './pages/ChannelPage.jsx'
 
 const router = createBrowserRouter([
     {
+     path: '/',
      element: <App/>,
      children: [
       { index: true, element: <VideoGrid/>},
       {path: 'feed/you', element: <EmptyAuthState/>},
-      {path: '/profile', element: <Profile/> }
+      {path: 'profile', element: <Profile/> },
+      {path: 'channel/:handle', element: <ChannelPage/>},
      ]
     },
     {
@@ -28,6 +31,7 @@ const router = createBrowserRouter([
       path: '/users/login',
       element: <LoginPage/>
     },
+    { path: '*', element: <EmptyAuthState/>}
   ]);
 
 createRoot(document.getElementById('root')).render(
