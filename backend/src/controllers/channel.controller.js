@@ -15,25 +15,52 @@ export async function getChannel(req, res) {
 
 
 export async function createChannel(req, res, next){
+    const avatar = req.file;
+    
+    if(avatar) {
+        if(!req.file.mimetype.startsWith('image/')) 
+            return res.status(400).send('file type is not valid.');
+    }
 
-    const {error, value} = validateChannel(req.body);
+    const {error, value} = validateChannel(JSON.parse(req.body.channel));
     if(error) return res.status(400).send(error.details[0].message);
 
+
     let channel;
+    let avatarId;
     const session = await Channel.startSession();
 
     // if it's fails ? rollback : commit
     try{
         await session.withTransaction(async()=> {
 
+            const update = {};
+
             //create channel
             channel = new Channel({...value, owner: req.user._id});
             await channel.save({session});
 
+            // profile update
+            if(avatar){
+                const uploaded = await uploadToCloudinary(avatar.path,  
+                    {
+                        folder: 'users',
+                        public_id: `avatar_${req.user._id}`,
+                        overwrite: true
+                    });
+                avatarId = uploaded.public_id;
+                
+                update.avatar = {
+                    _id: uploaded.public_id,
+                    url: uploaded.secure_url
+                }
+            };
+
+            
+            update.role = CREATOR_ROLE;
+
             // update role
-            const user = await User.findByIdAndUpdate(req.user._id, {$set: {
-                role: CREATOR_ROLE
-            },},{session});
+            const user = await User.findByIdAndUpdate(req.user._id, {$set: update},{session});
 
             if(!user) {
                 throw new Error('user not found.');
@@ -41,6 +68,13 @@ export async function createChannel(req, res, next){
         });
     }
     catch(ex){
+
+        // fire cleanups ? fails to update DB
+        if(avatarId){
+            deleteFromCloudinary(avatar)
+                .catch((ex)=> console.error(`could not delete video -> avatar: ${avatar}`, ex));
+        }
+
         if(ex.code === 11000){
             if(ex.keyPattern.handle){
                 return res.status(409).send('this handle not available.');

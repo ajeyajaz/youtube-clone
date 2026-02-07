@@ -14,7 +14,7 @@ import createrOnly from '../middlewares/createrOnly.middleware.js'
 const router = express.Router();
 
 router.get('/:handle', asynHandler(getChannel));
-router.post('/',auth, asynHandler(createChannel));
+router.post('/',[auth, upload.single('avatar')], asynHandler(createChannel));
 router.put('/', [auth, createrOnly], asynHandler(updateChannel));
 router.patch('/cover-image',
     [
