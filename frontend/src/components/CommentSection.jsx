@@ -1,90 +1,82 @@
-import { useEffect, useState } from "react";
-import { BiLike, BiDislike, BiEdit, BiTrash } from "react-icons/bi";
-import { IoSend, IoClose } from "react-icons/io5";
-import apiClient from "../services/api-client";
+import { useState } from "react";
+import { BiDislike, BiEdit, BiLike, BiTrash } from "react-icons/bi";
+import { IoClose, IoSend } from "react-icons/io5";
+import ErrorToast from "../components/ErrorToast";
+import useComments from "../hooks/useComments";
+import commentService from "../services/comment-service";
 
 function CommentSection({ videoId }) {
-  const [comments, setComments] = useState([]);
   const [newComment, setNewComment] = useState("");
   const [editingId, setEditingId] = useState(null);
   const [editingText, setEditingText] = useState("");
-  const [loading, setLoading] = useState(true);
   const [posting, setPosting] = useState(false);
 
-  useEffect(() => {
-    if (!videoId) return;
+  const {
+    data: comments,
+    setData: setComments,
+    error,
+    setError,
+    loading,
+  } = useComments(videoId);
 
-    const fetchComments = async () => {
-      try {
-        setLoading(true);
-        const { data } = await apiClient.get(
-          `/comments/video/${videoId}/comments`
-        );
-        setComments(data);
-      } finally {
-        setLoading(false);
-      }
-    };
 
-    fetchComments();
-  }, [videoId]);
-
-  /* =====================
-     POST COMMENT
-  ====================== */
+  // Post comment
   const handlePostComment = async () => {
     if (!newComment.trim()) return;
 
+    setPosting(true);
+
     try {
-      setPosting(true);
-      const { data } = await apiClient.post(`/comments`, {
-        comment: newComment,
+      const { data } = await commentService.post({
         video: videoId,
+        comment: newComment.trim(),
       });
 
-      setComments((prev) => [data, ...prev]);
-      setNewComment("");
+      setComments([data, ...comments]);
+    } catch (ex) {
+      setError(ex.response?.data || "could not update comment.");
     } finally {
+      setNewComment("");
       setPosting(false);
     }
   };
 
-  /* =====================
-     EDIT COMMENT
-  ====================== */
-  const handleUpdateComment = async (id) => {
+  // edit comment
+  const handleUpdateComment = async (commentId) => {
     if (!editingText.trim()) return;
 
-    const { data } = await apiClient.put(`/comments/${id}`, {
-      comment: editingText,
-      video: videoId
-    });
-
-    console.log('update: ', data)
-
-    setComments((prev) =>
-      prev.map((c) => (c._id === id ? data : c))
-    );
-
-    setEditingId(null);
-    setEditingText("");
+    try {
+      const { data: udpatedComment } = await commentService.put(commentId, {
+        video: videoId,
+        comment: editingText.trim(),
+      });
+      // update comments
+      setComments((prev) =>
+        prev.map((p) => (p._id !== commentId ? p : udpatedComment)),
+      );
+    } catch (ex) {
+      setError(ex.response?.data || "could not update comment.");
+    } finally {
+      setEditingId(null);
+      setEditingText("");
+    }
   };
 
-  /* =====================
-     DELETE COMMENT
-  ====================== */
-  const handleDeleteComment = async (id) => {
-    if (!confirm("Delete this comment?")) return;
-
-    await apiClient.delete(`/comments/${id}`);
-
-    setComments((prev) => prev.filter((c) => c._id !== id));
+  const handleDeleteComment = async (commentId) => {
+    try {
+      await commentService.delete(commentId);
+      //filter comment
+      setComments((prev) => prev.filter(p => p._id !== commentId));
+    } catch (ex) {
+      setError(ex.response?.data || "could not delete comment.");
+    }
   };
+
 
   return (
     <div className="mt-6">
       <h2 className="text-lg font-semibold mb-4">
-        Comments {comments.length > 0 && `(${comments.length})`}
+        Comments {comments?.length > 0 && `(${comments.length})`}
       </h2>
 
       {/* Add Comment */}
@@ -94,7 +86,12 @@ function CommentSection({ videoId }) {
           value={newComment}
           onChange={(e) => setNewComment(e.target.value)}
           placeholder="Add a comment..."
-          className="flex-1 bg-neutral-900 border border-neutral-800 rounded-full px-4 py-2 outline-none focus:border-neutral-600"
+          className={`
+                  flex-1 bg-neutral-900 border
+                  border-neutral-800 rounded-full
+                  px-4 py-2 outline-none
+                  ${posting ? "opacity-30" : ""}
+                  `}
         />
         <button
           onClick={handlePostComment}
@@ -119,9 +116,7 @@ function CommentSection({ videoId }) {
 
             <div className="flex-1">
               <div className="flex justify-between">
-                <p className="text-sm font-medium">
-                  @{c.user?.userName}
-                </p>
+                <p className="text-sm font-medium">@{c.user?.userName}</p>
 
                 {/* Edit / Delete */}
                 <div className="flex gap-2 text-neutral-400">
@@ -158,6 +153,7 @@ function CommentSection({ videoId }) {
                   >
                     <IoSend size={18} />
                   </button>
+                  {/* edit-comment cancel */}
                   <button
                     onClick={() => setEditingId(null)}
                     className="text-neutral-400"
@@ -166,9 +162,7 @@ function CommentSection({ videoId }) {
                   </button>
                 </div>
               ) : (
-                <p className="text-sm text-neutral-300 mt-1">
-                  {c.comment}
-                </p>
+                <p className="text-sm text-neutral-300 mt-1">{c.comment}</p>
               )}
 
               <div className="flex items-center gap-6 mt-2 text-neutral-400 text-sm">
@@ -189,6 +183,8 @@ function CommentSection({ videoId }) {
           <p className="text-sm text-neutral-400">No comments yet</p>
         )}
       </div>
+
+      <ErrorToast message={error} onClose={() => setError("")} />
     </div>
   );
 }

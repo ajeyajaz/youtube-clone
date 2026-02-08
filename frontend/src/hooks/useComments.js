@@ -29,6 +29,6 @@ export default (videoId) => {
 
    }, [videoId])
 
-   return {data, error, loading};
+   return {data, setData, error, setError, loading};
 };
 

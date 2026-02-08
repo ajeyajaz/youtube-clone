@@ -10,7 +10,7 @@ import auth from '../middlewares/auth.middleware.js'
 
 const router = express.Router();
 
-router.get('/video/:video/comments', asynHandler(getComments));
+router.get('/:video/', asynHandler(getComments));
 router.post('/', auth, asynHandler(addComment));
 router.put('/:id', auth, asynHandler(updateComment));
 router.delete('/:id', auth, asynHandler(deleteComment));
