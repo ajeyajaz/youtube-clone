@@ -12,6 +12,7 @@ import EmptyAuthState from './components/EmptyAuthState'
 import Profile from './profile/Profile'
 import ChannelPage from './pages/ChannelPage.jsx'
 import WatchVideoPage from './pages/VideoPage.jsx'
+import AuthInitializer from './auth/AuthInitializer.jsx'
 
 const router = createBrowserRouter([
     {
@@ -42,7 +43,9 @@ const router = createBrowserRouter([
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <Provider store={store}>
-      <RouterProvider router={router}/>
+      <AuthInitializer>
+        <RouterProvider router={router}/>
+      </AuthInitializer>
     </Provider>
   </StrictMode>,
 )

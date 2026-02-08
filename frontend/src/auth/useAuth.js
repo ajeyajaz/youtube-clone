@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux'
 import { setUser } from "../redux/slices/auth.slice";
 
 
-const useUser = () => {
+const useAuth = () => {
     const dispatch = useDispatch();
 
     useEffect(()=> {
@@ -42,4 +42,4 @@ const useUser = () => {
     }, [dispatch]);
 }
 
-export default useUser;
+export default useAuth;

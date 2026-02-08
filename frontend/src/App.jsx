@@ -2,11 +2,9 @@ import { useState } from "react";
 import Header from "./components/Header";
 import SideBar from "./sideBar/SideBar";
 import { Outlet } from "react-router-dom";
-import useUser from './hooks/useUser'
 
 
 function App() {
-  useUser();
   const [expandSidebar, setExpandSidebar] = useState(false);
   
   
