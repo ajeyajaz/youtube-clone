@@ -14,10 +14,10 @@ export default function UserButton() {
     console.log('user', user, CREATOR_ROLE, isAuthenticated)
     if(isAuthenticated){
         if(user.role === USER_ROLE)
-            return navigate('profile');
+            return navigate('/profile');
 
         if(user.role === CREATOR_ROLE){
-          return navigate(`channel/${user?.channel?.handle}`);
+          return navigate(`/channel/${user?.channel?.handle}`);
         }
       
     }

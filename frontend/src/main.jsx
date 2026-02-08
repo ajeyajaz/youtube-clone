@@ -11,6 +11,7 @@ import VideoGrid from './components/VideoGrid'
 import EmptyAuthState from './components/EmptyAuthState'
 import Profile from './profile/Profile'
 import ChannelPage from './pages/ChannelPage.jsx'
+import WatchVideoPage from './pages/VideoPage.jsx'
 
 const router = createBrowserRouter([
     {
@@ -30,6 +31,10 @@ const router = createBrowserRouter([
     {
       path: '/users/login',
       element: <LoginPage/>
+    },
+    {
+      path: "/videos/:videoId", 
+      element:<WatchVideoPage />
     },
     { path: '*', element: <EmptyAuthState/>}
   ]);

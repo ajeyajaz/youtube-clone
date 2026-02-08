@@ -1,17 +1,13 @@
 import { useState } from "react";
 import formatter from "../services/views-formater";
 import CircleImage from "./CircleImage";
-import ThreeDotMenu from "./ThreeDotMenu"
+import ThreeDotMenu from "./ThreeDotMenu";
 import EditVideoForm from "./EditeVideoForm";
+import { useNavigate } from "react-router-dom";
 
-function VideoCard({
-  video,
-  isOwner,
-  isChannelPage,
-  onDeleted,
-  onUpdated,
-}) {
+function VideoCard({ video, isOwner, isChannelPage, onDeleted, onUpdated }) {
   const [showEdit, setShowEdit] = useState(false);
+  const navigate = useNavigate();
 
   const publishedDate = new Date(video.createdAt).toLocaleDateString(
     undefined,
@@ -19,13 +15,19 @@ function VideoCard({
       year: "numeric",
       month: "short",
       day: "numeric",
-    }
+    },
   );
+
+  const handleClick = () => {
+    navigate(`/videos/${video._id}`);
+  };
 
   const showMenu = isOwner && isChannelPage;
 
   return (
-    <div className="group relative w-full cursor-pointer md:rounded-xl md:p-3 hover:bg-gray-900 transition-all duration-300">
+    <div className="group relative w-full cursor-pointer md:rounded-xl md:p-3 hover:bg-gray-900 transition-all duration-300"
+      onClick={handleClick}
+    >
       {/* Thumbnail */}
       <div className="relative aspect-video w-full overflow-hidden md:rounded-lg">
         <img
@@ -42,17 +44,11 @@ function VideoCard({
       {/* Info */}
       <div className="relative mt-2 flex gap-3 px-2 pb-4 md:px-0 md:pb-0">
         {!isChannelPage && (
-          <CircleImage
-            src={video.channel.owner.avatar.url}
-            w={10}
-            h={10}
-          />
+          <CircleImage src={video.channel.owner.avatar.url} w={10} h={10} />
         )}
 
         <div className="flex-1">
-          <h3 className="text-lg font-semibold line-clamp-2">
-            {video.title}
-          </h3>
+          <h3 className="text-lg font-semibold line-clamp-2">{video.title}</h3>
 
           <div className="mt-1 text-sm text-gray-400">
             <p className="line-clamp-1">{video.channel.name}</p>
