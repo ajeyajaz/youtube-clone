@@ -44,7 +44,7 @@ export async function addComment(req, res, next) {
     finally{
         session.endSession();
     }
-    return res.status(201).json({...comment.toObject(),  user: {userName: user.userName, avatar: user.avatar.url}});
+    return res.status(201).json({...comment.toObject(),  user: {userName: user.userName, avatar: user.avatar}});
 }
 
 export async function deleteComment(req, res, next) {
@@ -85,7 +85,7 @@ export async function updateComment(req, res, next) {
     // check - req.user._id = comment.user
     // update
     
-    const {error, value} = validateUpdateComment(req.body);
+    const {error, value} = validateUpdateComment({id: req.params.id, ...req.body});
     if(error) return res.status(400).send(error.details[0].message);
 
     const user = await User.findById(req.user._id);
@@ -96,7 +96,7 @@ export async function updateComment(req, res, next) {
     }, {new: true});
     if(!comment) return res.status(404).send('comment not found.');
 
-    return res.status(200).json(comment);
+    return res.status(200).json({...comment.toObject(), user: {userName: user.userName, avatar: user.avatar}});
 }
 
 export async function getComments(req, res, next) {

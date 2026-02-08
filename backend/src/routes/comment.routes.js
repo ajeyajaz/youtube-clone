@@ -12,7 +12,7 @@ const router = express.Router();
 
 router.get('/video/:video/comments', asynHandler(getComments));
 router.post('/', auth, asynHandler(addComment));
-router.put('/', auth, asynHandler(updateComment));
+router.put('/:id', auth, asynHandler(updateComment));
 router.delete('/:id', auth, asynHandler(deleteComment));
 
 export default router;
