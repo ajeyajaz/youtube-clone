@@ -1,7 +1,7 @@
 import { useParams } from "react-router-dom";
-import ChannelHeader from "../components/ChannelHeader";
-import ChannelBody from "../components/ChannelBody";
-import useChannel from "../hooks/useChannel";
+import ChannelHeader from "./ChannelHeader";
+import ChannelBody from "./ChannelBody";
+import useChannel from "./useChannel";
 
 function ChannelPage() {
   const { handle } = useParams();

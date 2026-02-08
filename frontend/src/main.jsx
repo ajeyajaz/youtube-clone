@@ -10,7 +10,7 @@ import { Provider } from 'react-redux'
 import VideoGrid from './components/VideoGrid'
 import EmptyAuthState from './components/EmptyAuthState'
 import Profile from './profile/Profile'
-import ChannelPage from './pages/ChannelPage.jsx'
+import ChannelPage from './channel/ChannelPage.jsx'
 import WatchVideoPage from './pages/VideoPage.jsx'
 import AuthInitializer from './auth/AuthInitializer.jsx'
 

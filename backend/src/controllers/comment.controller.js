@@ -44,7 +44,10 @@ export async function addComment(req, res, next) {
     finally{
         session.endSession();
     }
-    return res.status(201).json({...comment.toObject(),  user: {userName: user.userName, avatar: user.avatar}});
+    return res.status(201).json(
+        {...comment.toObject(),  
+        user: {_id: user._id, userName: user.userName, avatar: user.avatar
+        }});
 }
 
 export async function deleteComment(req, res, next) {

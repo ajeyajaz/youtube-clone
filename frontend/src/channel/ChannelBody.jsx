@@ -1,5 +1,5 @@
 import { useState } from "react";
-import VideoCard from "./VideoCard";
+import VideoCard from "../components/VideoCard";
 import { useSelector } from "react-redux";
 import UploadVideo from "../components/UploadVideo";
 

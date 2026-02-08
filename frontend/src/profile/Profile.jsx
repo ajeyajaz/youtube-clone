@@ -2,8 +2,7 @@ import { useSelector } from "react-redux";
 import EmptyAuthState from '../components/EmptyAuthState'
 import {USER_ROLE, CREATOR_ROLE} from '../constants'
 import UserProfile from "./userProfile";
-import CreatorProfile from './CreatorProfile'
-import ChannelPage from "../pages/ChannelPage";
+import ChannelPage from "../channel/ChannelPage";
 
 function Profile() {
     const {user, isAuthenticated} = useSelector(state => state.auth);
