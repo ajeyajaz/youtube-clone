@@ -4,13 +4,13 @@ function VideoDescription({ video }) {
   const [expanded, setExpanded] = useState(false);
 
   const MAX_CHARS = 180;
-  const isLong = video.description.length > MAX_CHARS;
+  const isLong = video.description?.length > MAX_CHARS;
 
   const text = expanded
     ? video.description
-    : video.description.slice(0, MAX_CHARS);
+    : video.description?.slice(0, MAX_CHARS);
 
-  const publishedDate = new Date(video.createdAt).toLocaleDateString(
+  const publishedDate = new Date(video.createdAt)?.toLocaleDateString(
     undefined,
     { year: "numeric", month: "short", day: "numeric" }
   );
@@ -19,7 +19,7 @@ function VideoDescription({ video }) {
     <section className="mt-4 rounded-xl bg-neutral-900 p-4 text-sm">
       {/* Meta */}
       <div className="mb-2 flex gap-4 font-medium text-white">
-        <span>{video.views.toLocaleString()} views</span>
+        <span>{video.views?.toLocaleString()} views</span>
         <span className="text-gray-400">{publishedDate}</span>
       </div>
 

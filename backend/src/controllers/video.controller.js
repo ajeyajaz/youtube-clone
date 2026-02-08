@@ -27,7 +27,7 @@ export async function getVideo(req, res, next) {
 
     if(!mongoose.isValidObjectId(video)) return res.status(404).send('video not found.');
 
-    video = await Video.findById(video);
+    video = await Video.findById(video).populate('channel');
     if(!video) return res.status(404).send('video not found.');
 
     return res.status(200).json(video);

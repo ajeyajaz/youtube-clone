@@ -1,27 +1,22 @@
-import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import apiClient from "../services/api-client";
-import VideoPlayer from "../components/VideoPlayer";
-import VideoRecommendations from "../components/VideoRecommendations";
 import CommentSection from "../comment/CommentSection";
 import Header from "../components/Header";
-import VideoDescription from "../components/VideoDescription";
 import VideoActionsBar from "../components/VideoActionsBar";
+import VideoDescription from "../components/VideoDescription";
+import VideoPlayer from "../components/VideoPlayer";
+import VideoRecommendations from "../components/VideoRecommendations";
+import useVideo from '../hooks/useVideo';
 
 function WatchVideoPage() {
-  const { videoId } = useParams();
-  const [video, setVideo] = useState(null);
-  const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    apiClient
-      .get(`/videos/${videoId}`)
-      .then(({ data }) => setVideo(data))
-      .finally(() => setLoading(false));
-  }, [videoId]);
+  const { videoId } = useParams();
+  const {data:video, loading, error} = useVideo(videoId);
+
+  console.log('channel video data', video);
+  console.log('loading..', loading)
 
   if (loading) return <p className="p-6">Loading...</p>;
-  if (!video) return <p className="p-6">Video not found</p>;
+  
 
   return (
     <section className="mt-35">
@@ -32,11 +27,11 @@ function WatchVideoPage() {
           <VideoPlayer video={video} />
           <VideoActionsBar
             video={{
-              likes: 41000,
+              likes: video.likes,
               channel: {
-                name: "Apna College",
-                subscribers: 7400000,
-                avatar: "https://i.pravatar.cc/150",
+                name: video.channel?.name,
+                subscribers: video.channel?.subscribers,
+                avatar: video.channel?.coverImg.url,
               },
             }}
           />

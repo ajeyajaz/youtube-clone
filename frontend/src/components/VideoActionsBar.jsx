@@ -23,7 +23,7 @@ function VideoActionsBar({ video }) {
       {/* Left: Channel info */}
       <div className="flex items-center gap-3">
         <img
-          src={video.channel?.avatar}
+          src={video.channel.avatar}
           alt="channel avatar"
           className="w-10 h-10 rounded-full"
         />
@@ -33,7 +33,7 @@ function VideoActionsBar({ video }) {
             {video.channel.name}
           </p>
           <p className="text-xs text-gray-400">
-            {video.channel.subscribers.toLocaleString()} subscribers
+            {video.channel.subscribers?.toLocaleString()} subscribers
           </p>
         </div>
 
@@ -46,12 +46,12 @@ function VideoActionsBar({ video }) {
       <div className="flex items-center gap-2 flex-wrap">
         <ActionButton
           icon={AiOutlineLike}
-          count={video.likes.toLocaleString()}
+          count={video.likes?.toLocaleString()}
         />
         <ActionButton icon={AiOutlineDislike} />
         <ActionButton icon={FiShare2} label="Share" />
         <ActionButton icon={MdOutlineAutoAwesome} label="Ask" />
-        <ActionButton icon={TbCircleOff} label="Remove ads" />
+       
 
         <button className="p-2 rounded-full bg-neutral-800 hover:bg-neutral-700">
           <HiDotsHorizontal size={18} />
