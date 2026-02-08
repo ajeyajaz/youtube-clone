@@ -34,7 +34,7 @@ function EditVideoForm({ video, onClose, onUpdated }) {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4">
+    <form onSubmit={handleSubmit} onClick={(e) => e.stopPropagation()} className="space-y-4">
       {error && <p className="text-red-500 text-sm">{error}</p>}
 
       <input
@@ -66,7 +66,9 @@ function EditVideoForm({ video, onClose, onUpdated }) {
 
       <div className="flex gap-3">
         <button
+          type="submit"
           disabled={loading}
+          onClick={(e) => e.stopPropagation()}
           className="px-4 py-2 bg-blue-600 rounded"
         >
           {loading ? "Updating..." : "Update"}
@@ -74,7 +76,10 @@ function EditVideoForm({ video, onClose, onUpdated }) {
 
         <button
           type="button"
-          onClick={onClose}
+          onClick={(e)=> {
+            e.stopPropagation();
+            onClose();
+          }}
           className="px-4 py-2 bg-neutral-700 rounded"
         >
           Cancel
