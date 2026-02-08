@@ -17,7 +17,7 @@ router.get('/', asyncHandler(getVideos));
 router.get('/channels/:channel/videos', asyncHandler(getChannelVideos));
 router.get('/:video', asyncHandler(getVideo));
 router.post('/',[auth,uploadMiddleware, createrOnly], asyncHandler(uploadVideo));
-router.put('/',[auth,upload.single('thumbnail'), createrOnly], asyncHandler(updateVideo));
+router.put('/:video',[auth,upload.single('thumbnail'), createrOnly], asyncHandler(updateVideo));
 router.delete('/:video', [auth, createrOnly], asyncHandler(deletVideo));
 
 export default router;

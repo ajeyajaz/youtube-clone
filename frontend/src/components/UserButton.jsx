@@ -1,11 +1,31 @@
 import { useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import {CREATOR_ROLE,USER_ROLE} from '../constants'
 
 export default function UserButton() {
-  const {user} = useSelector(state => state.auth);
+
+  const {user, isAuthenticated} = useSelector(state => state.auth);
+  const navigate = useNavigate();
+
+  console.log('user handle', user.channel.handle)
+
+  const handleClick = () => {
+    console.log('handle clicked.')
+    console.log('user', user, CREATOR_ROLE, isAuthenticated)
+    if(isAuthenticated){
+        if(user.role === USER_ROLE)
+            return navigate('profile');
+
+        if(user.role === CREATOR_ROLE){
+          return navigate(`channel/${user?.channel?.handle}`);
+        }
+      
+    }
+  }
   
   return (
-      <Link
+      <button
+        onClick={handleClick}
         to='/profile'
         aria-label="User menu"
         className="
@@ -25,6 +45,6 @@ export default function UserButton() {
           alt="User avatar"
           className="w-full h-full object-cover"
         />
-      </Link>
+      </button>
   );
 }

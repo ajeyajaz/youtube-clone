@@ -67,7 +67,7 @@ const Channel = mongoose.model('Channel', channelSchema);
 
 
 export async function getChannelByHandle(handle){
-    return await Channel.findOne({handle: "@" + handle});
+    return await Channel.findOne({handle});
 }
 
 

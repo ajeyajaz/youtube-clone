@@ -20,7 +20,7 @@ const useUser = () => {
             }
             catch(ex){
 
-                if(ex.response.status === 401){
+                if(ex.response?.status === 401){
                     try{
                         // get access-token
                         const { data } = await apiClient.get('auth/refresh');

@@ -2,7 +2,7 @@ import { useState } from "react";
 import { HiDotsVertical } from "react-icons/hi";
 import apiClient from "../services/api-client";
 
-function ThreeDotMenu({ videoId, onDelete }) {
+function ThreeDotMenu({ videoId, onDelete, onEdit }) {
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
 
@@ -25,7 +25,7 @@ function ThreeDotMenu({ videoId, onDelete }) {
   return (
     <div className="relative ml-auto">
       <button
-        onClick={() => setOpen((v) => !v)}
+        onClick={() => setOpen(v => !v)}
         className="p-2 rounded-full hover:bg-neutral-800"
       >
         <HiDotsVertical size={18} />
@@ -34,10 +34,15 @@ function ThreeDotMenu({ videoId, onDelete }) {
       {open && (
         <div className="absolute right-0 top-9 w-36 rounded-xl bg-neutral-900 border border-neutral-800 shadow-lg z-50">
           <button
+            onClick={() => {
+              onEdit();
+              setOpen(false);
+            }}
             className="w-full px-4 py-2 text-left hover:bg-neutral-800"
           >
             Edit
           </button>
+
           <button
             onClick={handleDelete}
             disabled={loading}
@@ -52,3 +57,4 @@ function ThreeDotMenu({ videoId, onDelete }) {
 }
 
 export default ThreeDotMenu;
+

@@ -103,69 +103,75 @@ export async function uploadVideo(req, res, next) {
 
 export async function updateVideo(req, res, next) {
     const thumbnail = req.file;
+    const videoId = req.params.video;
 
-    if(thumbnail){
-        if(!ALLOWED_IMAGE_TYPES[thumbnail.mimetype]) 
-        return res.status(400).send('thumnail file type is not valid.');
+    if (thumbnail) {
+        if (!ALLOWED_IMAGE_TYPES[thumbnail.mimetype])
+            return res.status(400).send('thumbnail file type is not valid.');
     }
 
-    const {error, value} = validateUpdateVideo(JSON.parse(req.body.videoInfo));
-    if(error) return res.status(400).send(error.details[0].message);
+    const { error, value } = validateUpdateVideo(
+        JSON.parse(req.body.videoInfo)
+    );
+    if (error) return res.status(400).send(error.details[0].message);
 
     const category = await Category.findById(value.category);
-    if(!category) return res.status(404).send('category not found.');
+    if (!category) return res.status(404).send('category not found.');
 
-    const video =  await Video.findById(value.video).populate('channel', 'owner');
-    if(!video) return res.status(404).send('video not found.');
+    const video = await Video.findById(videoId).populate('channel', 'owner');
+    if (!video) return res.status(404).send('video not found.');
+    if (!video.channel) return res.status(404).send('channel not found.');
 
-    if(!video.channel) return res.status(404).send('channel not found.');
+    if (video.channel.owner.toString() !== req.user._id.toString())
+        return res.status(403).send('access denied.');
 
-    if(video.channel.owner.toString() !== req.user._id)
-        return res.status(403).send('access denied.')
+    let newThumbnailId;
+    let oldThumbnailId;
 
+    try {
+        if (thumbnail) {
+            oldThumbnailId = video.thumbnail?._id;
 
-    let newthumbnailId;
-    try{
-        let oldthumbnailId;
+            const uploadResult = await uploadToCloudinary(thumbnail.path, {
+                folder: 'channels/thumbnails',
+                resource_type: 'image'
+            });
 
-        if(thumbnail){
-            oldthumbnailId = video.thumbnail._id;
-
-            const thumbnailUploadRsl = await uploadToCloudinary(thumbnail.path, 
-                {folder:'channels/thumbnails',resource_type: 'image'}
-            );
-            
             video.thumbnail = {
-                _id: thumbnailUploadRsl.public_id,
-                url: thumbnailUploadRsl.secure_url
-            }
+                _id: uploadResult.public_id,
+                url: uploadResult.secure_url
+            };
 
-            newthumbnailId = thumbnailUploadRsl.public_id;
-        };
+            newThumbnailId = uploadResult.public_id;
+        }
 
         video.title = value.title;
         video.description = value.description;
         video.category = category._id;
-        
+
         await video.save();
 
-        // clean old-thumbnail
-       if(oldthumbnailId){
-            deleteFromCloudinary(oldthumbnailId)
-                .catch(ex => console.error(`could not clean thumbnail -> ${oldthumbnailId}`, ex));
-       }
+        // cleanup old thumbnail
+        if (oldThumbnailId) {
+            deleteFromCloudinary(oldThumbnailId)
+                .catch(err =>
+                    console.error(`could not clean thumbnail -> ${oldThumbnailId}`, err)
+                );
+        }
 
         return res.status(200).json(video);
-    }
-    catch(ex){
-        // clean new-thumbnail
-        if(newthumbnailId){
-            deleteFromCloudinary(newthumbnailId)
-                .catch(ex=> console.error(`could not clean thumbnail -> ${newthumbnailId}`, ex));
+    } catch (ex) {
+        // cleanup new thumbnail if save failed
+        if (newThumbnailId) {
+            deleteFromCloudinary(newThumbnailId)
+                .catch(err =>
+                    console.error(`could not clean thumbnail -> ${newThumbnailId}`, err)
+                );
         }
         next(ex);
-    }    
+    }
 }
+
 
 export async function deletVideo(req, res, next) {
 

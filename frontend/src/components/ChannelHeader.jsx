@@ -10,7 +10,7 @@ function ChannelHeader({channel}) {
   return (
     <section className="w-full">
       {/* Banner */}
-      <div className="w-full h-40 md:h-56 bg-neutral-800 overflow-hidden">
+      <div className="w-full h-40 md:h-56 bg-neutral-800 rounded-lg overflow-hidden">
         <img
           src={
             channel?.coverImg?.url ||
@@ -63,7 +63,7 @@ function ChannelHeader({channel}) {
       {/* Tabs */}
       <div className="px-6 border-b border-neutral-800">
         <ul className="flex gap-6 text-sm text-gray-400">
-          {["Home", "Videos", "Shorts", "Live", "Playlists", "Community"].map(
+          {["Home"].map(
             (tab) => (
               <li
                 key={tab}
