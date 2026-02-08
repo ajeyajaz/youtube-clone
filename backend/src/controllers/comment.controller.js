@@ -44,7 +44,7 @@ export async function addComment(req, res, next) {
     finally{
         session.endSession();
     }
-    return res.status(201).json(comment);
+    return res.status(201).json({...comment.toObject(),  user: {userName: user.userName, avatar: user.avatar.url}});
 }
 
 export async function deleteComment(req, res, next) {
@@ -107,11 +107,12 @@ export async function getComments(req, res, next) {
     // returns skip and limit
     const {skip, limit} = pagination(req.query.page, req.query.limit);
 
-    const videos = await Comment
+    const comments = await Comment
         .find({video: req.params.video})
+        .populate('user', 'userName avatar')
         .skip(skip)
         .limit(limit)
         .sort({createdAt: -1});
    
-    return res.status(200).json(videos); 
+    return res.status(200).json(comments); 
 }

@@ -37,7 +37,7 @@ export function validateComment(value={}){
     
     const schema = joi.object({
         video: joi.objectId().required(),
-        comment: joi.string().max(1024).required(),
+        comment: joi.string().trim().max(1024).required(),
         parentComment: joi.objectId()
     })
 
