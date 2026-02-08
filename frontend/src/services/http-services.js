@@ -37,8 +37,8 @@ class HttService{
         return {request, cancel : () => controller.abort()}
     }
 
-    post(id, data){
-        return axiosInstance.post(this.endpoint + '/' + id, data)
+    post(data){
+        return axiosInstance.post(this.endpoint, data)
     }
 
     put(id, data){

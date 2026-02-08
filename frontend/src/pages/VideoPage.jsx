@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import apiClient from "../services/api-client";
 import VideoPlayer from "../components/VideoPlayer";
 import VideoRecommendations from "../components/VideoRecommendations";
-import CommentSection from "../components/CommentSection";
+import CommentSection from "../comment/CommentSection";
 import Header from "../components/Header";
 import VideoDescription from "../components/VideoDescription";
 import VideoActionsBar from "../components/VideoActionsBar";

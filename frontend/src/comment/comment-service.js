@@ -1,4 +1,4 @@
-import HttpService from './http-services';
+import HttpService from '../services/http-services';
 
 
 const commentService =  HttpService('/comments');
