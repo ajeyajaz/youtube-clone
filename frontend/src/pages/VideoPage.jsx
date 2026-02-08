@@ -5,6 +5,8 @@ import VideoPlayer from "../components/VideoPlayer";
 import VideoRecommendations from "../components/VideoRecommendations";
 import CommentSection from "../components/CommentSection";
 import Header from "../components/Header";
+import VideoDescription from "../components/VideoDescription";
+import VideoActionsBar from "../components/VideoActionsBar";
 
 function WatchVideoPage() {
   const { videoId } = useParams();
@@ -28,9 +30,20 @@ function WatchVideoPage() {
         {/* LEFT */}
         <div className="lg:col-span-8">
           <VideoPlayer video={video} />
-          <CommentSection />
+          <VideoActionsBar
+            video={{
+              likes: 41000,
+              channel: {
+                name: "Apna College",
+                subscribers: 7400000,
+                avatar: "https://i.pravatar.cc/150",
+              },
+            }}
+          />
+          {/* Description */}
+          <VideoDescription video={video} />
+          <CommentSection videoId={video._id} />
         </div>
-
         {/* RIGHT */}
         <div className="lg:col-span-4">
           <VideoRecommendations />
