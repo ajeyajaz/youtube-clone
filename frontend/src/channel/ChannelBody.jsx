@@ -1,7 +1,7 @@
 import { useState } from "react";
-import VideoCard from "../components/VideoCard";
+import VideoCard from "../video/VideoCard";
 import { useSelector } from "react-redux";
-import UploadVideo from "../components/UploadVideo";
+
 
 function ChannelBody({ channel }) {
   const { user } = useSelector((state) => state.auth);
@@ -21,7 +21,7 @@ function ChannelBody({ channel }) {
 
   return (
     <>
-      <div className="grid md:grid-cols-2 lg:grid-cols-4 md:px-2 md:gap-y-3">
+      <div className="grid md:grid-cols-2 lg:grid-cols-3 md:px-2 md:gap-y-3">
         {videos.map((v) => (
           <VideoCard
             key={v._id}
@@ -32,9 +32,6 @@ function ChannelBody({ channel }) {
             onUpdated={handleUpdate}
           />
         ))}
-        <UploadVideo
-          onUploaded={(video) => setVideos((prev) => [video, ...prev])}
-        />
       </div>
     </>
   );

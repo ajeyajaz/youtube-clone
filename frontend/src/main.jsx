@@ -7,12 +7,11 @@ import LoginPage from './auth/LoginPage'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { store } from './redux/store'
 import { Provider } from 'react-redux'
-import VideoGrid from './components/VideoGrid'
-import EmptyAuthState from './components/EmptyAuthState'
+import VideoGrid from './video/VideoGrid'
 import Profile from './profile/Profile'
-import ChannelPage from './channel/ChannelPage.jsx'
-import WatchVideoPage from './pages/VideoPage.jsx'
-import AuthInitializer from './auth/AuthInitializer.jsx'
+import ChannelPage from './channel/ChannelPage'
+import WatchVideoPage from './video/VideoPage'
+import AuthInitializer from './auth/AuthInitializer'
 
 const router = createBrowserRouter([
     {
@@ -20,7 +19,6 @@ const router = createBrowserRouter([
      element: <App/>,
      children: [
       { index: true, element: <VideoGrid/>},
-      {path: 'feed/you', element: <EmptyAuthState/>},
       {path: 'profile', element: <Profile/> },
       {path: 'channel/:handle', element: <ChannelPage/>},
      ]
@@ -37,7 +35,6 @@ const router = createBrowserRouter([
       path: "/videos/:videoId", 
       element:<WatchVideoPage />
     },
-    { path: '*', element: <EmptyAuthState/>}
   ]);
 
 createRoot(document.getElementById('root')).render(

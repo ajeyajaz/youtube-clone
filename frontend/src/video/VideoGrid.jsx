@@ -1,6 +1,6 @@
 import useVideos from "../hooks/useVideos";
 import VideoCard from "./VideoCard";
-import TopLoadingBar from "./TopLoadingBar";
+import TopLoadingBar from "../components/TopLoadingBar";
 
 function VideoGrid() {
   const { data: videos, error, isLoading } = useVideos();

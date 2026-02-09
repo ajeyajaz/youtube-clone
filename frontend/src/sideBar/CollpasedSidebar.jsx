@@ -2,6 +2,7 @@ import { CiYoutube } from "react-icons/ci";
 import { GoHome, GoPlusCircle } from "react-icons/go";
 import { HiOutlineUserCircle } from "react-icons/hi2";
 import { TbBrandYoutubeKids as YoutubeShorts } from "react-icons/tb";
+import UploadBotton from '../video/UploadBotton'
 
 function CollpasedSidebar() {
   return (
@@ -17,7 +18,9 @@ function CollpasedSidebar() {
         Shorts
       </div>
       {/* uploaad */}
-      <GoPlusCircle className="sidebar-logo md:hidden" />
+      <div className="md:hidden">
+        <UploadBotton  />
+      </div>
       {/* subscription */}
       <div className="sidebar-collapased-item hover-eff">
         <CiYoutube className="sidebar-logo" />

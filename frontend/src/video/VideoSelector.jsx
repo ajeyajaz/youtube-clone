@@ -1,6 +1,5 @@
-import { HiOutlineUserCircle } from "react-icons/hi2";
 import { MdVideoCall } from "react-icons/md";
-import { FiUpload } from "react-icons/fi";
+
 
 function VideoSelector({ onChange }) {
   const handleOnChange = (e) => {

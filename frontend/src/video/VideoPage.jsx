@@ -1,10 +1,10 @@
 import { useParams } from "react-router-dom";
 import CommentSection from "../comment/CommentSection";
 import Header from "../components/Header";
-import VideoActionsBar from "../components/VideoActionsBar";
-import VideoDescription from "../components/VideoDescription";
-import VideoPlayer from "../components/VideoPlayer";
-import VideoRecommendations from "../components/VideoRecommendations";
+import VideoActionsBar from "./VideoActionsBar";
+import VideoDescription from "./VideoDescription";
+import VideoPlayer from "./VideoPlayer";
+import VideoRecommendations from "./VideoRecommendations";
 import useVideo from '../hooks/useVideo';
 
 function WatchVideoPage() {

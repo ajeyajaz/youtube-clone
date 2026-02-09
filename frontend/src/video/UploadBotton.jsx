@@ -1,5 +1,5 @@
 import { GoPlus } from "react-icons/go";
-import VideoUploadModal from "../video/VideoUploadModal";
+import VideoUploadModal from "./VideoUploadModal";
 import { useState } from "react";
 
 export default function CreateButton() {
@@ -10,7 +10,7 @@ export default function CreateButton() {
       <button
         onClick={()=> setOnclick(true)}
         className="
-        hidden items-center gap-2
+        justify-center items-center gap-2
         px-4 h-9
         rounded-full
         border border-neutral-700
@@ -21,7 +21,7 @@ export default function CreateButton() {
       "
       >
         <GoPlus size={18} />
-        <span className="hidden text-sm sm:inline">Create</span>
+        <span className="hidden text-sm md:inline">Create</span>
       </button>
       {onClick && <VideoUploadModal onClose={() => setOnclick(false)}/>}
     </>

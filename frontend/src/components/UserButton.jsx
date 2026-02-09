@@ -7,11 +7,7 @@ export default function UserButton() {
   const {user, isAuthenticated} = useSelector(state => state.auth);
   const navigate = useNavigate();
 
-  console.log('user handle', user.channel.handle)
-
   const handleClick = () => {
-    console.log('handle clicked.')
-    console.log('user', user, CREATOR_ROLE, isAuthenticated)
     if(isAuthenticated){
         if(user.role === USER_ROLE)
             return navigate('/profile');
@@ -19,7 +15,6 @@ export default function UserButton() {
         if(user.role === CREATOR_ROLE){
           return navigate(`/channel/${user?.channel?.handle}`);
         }
-      
     }
   }
   

@@ -1,7 +1,7 @@
 import youtubeLogo from "../assets/youtube-logo.svg";
 import { FiMenu } from "react-icons/fi";
 import SearchBox from "./SearchBox";
-import CreateButton from "./CreateBotton";
+import UploadBotton from "../video/UploadBotton";
 import VoiceButton from "./VoiceBotton";
 import UserButton from "./UserButton";
 import SignInButton from "./SignInButton";
@@ -39,7 +39,7 @@ function NavBar({ setExpandSidebar }) {
       </div>
 
       <div className="hidden gap-3 sm:flex">
-        <CreateButton />
+        <UploadBotton />
         {isAuthenticated ? <UserButton /> : <SignInButton />}
       </div>
     </div>

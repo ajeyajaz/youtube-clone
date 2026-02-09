@@ -1,7 +1,7 @@
 import { useState } from "react";
 import formatter from "../services/views-formater";
-import CircleImage from "./CircleImage";
-import ThreeDotMenu from "./ThreeDotMenu";
+import CircleImage from "../components/CircleImage";
+import ThreeDotMenu from "../components/ThreeDotMenu";
 import EditVideoForm from "./EditeVideoForm";
 import { useNavigate } from "react-router-dom";
 
@@ -33,6 +33,7 @@ function VideoCard({ video, isOwner, isChannelPage, onDeleted, onUpdated }) {
         <img
           src={video.thumbnail.url}
           alt={video.title}
+          loading="lazy"
           className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
         />
 
