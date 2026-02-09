@@ -12,7 +12,7 @@ function ThumbnailSelector({ onChange }) {
   return (
     <>
       {/* preview */}
-      <div className="w-40 h-28  rounded-lg bg-blue-100 flex flex-col items-center justify-center overflow-hidden">
+      <div className="w-40 h-15  rounded-lg bg-blue-100 flex flex-col items-center justify-center overflow-hidden lg:h-25">
         {/* upload btn */}
         <label
           htmlFor="thumbnail"

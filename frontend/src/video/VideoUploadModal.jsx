@@ -12,6 +12,7 @@ import videoService from "../services/video-service";
 import ThumbnailSelector from "./ThumbnailSeclector";
 import VideoSelector from "./VideoSelector";
 import videoValidationSchema from "./videoValidationSchema";
+import SuccessMessage from "../components/SuccessMessage";
 
 function CreateVideoModal({onClose}) {
 
@@ -25,6 +26,7 @@ function CreateVideoModal({onClose}) {
   const [video, setVideo] = useState(null);
   const [error, setError] = useState('');
   const [posting, setPosting] = useState(false);
+  const [uploaded, setUploded] = useState(false);
   const navigate = useNavigate();
 
   const {user} = useSelector((state) => state.auth);
@@ -55,13 +57,13 @@ function CreateVideoModal({onClose}) {
 
     try {
       setPosting(true);
-      await videoService.post(form); 
-      navigate(`channel/${user.channel?.handle}`) // navigate -> channel page
+      await videoService.post(form);
+      setUploded(true);
     } catch (ex) {
       setError(ex.response?.data || 'something went wrong.')
     } 
     finally{
-      onClose(); // close form
+      setTimeout(() => {onClose();}, 2000)
       setPosting(false);
       setVideo(null);
       setThumbnail(null);
@@ -70,7 +72,7 @@ function CreateVideoModal({onClose}) {
 
   return (
     <section className="fixed inset-0 z-50 flex items-center justify-center bg-black/60">
-      <div className="w-full max-w-md bg-white rounded-xl p-6 space-y-5 text-black lg:max-w-xl">
+      <div className="w-full max-h-max max-w-md bg-white rounded-xl p-6 space-y-5 text-black lg:max-w-xl">
         {/* Title */}
         <h2 className="text-lg font-semibold">Upload video</h2>
 
@@ -127,7 +129,7 @@ function CreateVideoModal({onClose}) {
         </form>
       </div>
       {posting && <TopLoadingBar/>}
-      { error &&  <ErrorToast  message={error} onClose={() => setError('')}/>}
+      { uploaded &&  <SuccessMessage  message='uploaded successfully.' onClose={()=> setUploded(false)}/>}
     </section>
   );
 }

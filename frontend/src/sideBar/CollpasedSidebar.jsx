@@ -1,17 +1,19 @@
 import { CiYoutube } from "react-icons/ci";
-import { GoHome, GoPlusCircle } from "react-icons/go";
+import { GoHome } from "react-icons/go";
 import { HiOutlineUserCircle } from "react-icons/hi2";
 import { TbBrandYoutubeKids as YoutubeShorts } from "react-icons/tb";
-import UploadBotton from '../video/UploadBotton'
+import UploadBotton from "../video/UploadBotton";
+import UserButton from "../components/UserButton";
+import { Link } from "react-router-dom";
 
 function CollpasedSidebar() {
   return (
-    <section className="flex justify-between items-center gap-5 md:flex-col">
+    <section className="flex justify-between items-center gap-2 md:flex-col">
       {/* home */}
-      <div className="sidebar-collapased-item hover-eff">
+      <Link className="sidebar-collapased-item hover-eff" to="/">
         <GoHome className="sidebar-logo" />
         Home
-      </div>
+      </Link>
       {/* shorts */}
       <div className="sidebar-collapased-item hover-eff">
         <YoutubeShorts className="sidebar-logo" />
@@ -19,7 +21,7 @@ function CollpasedSidebar() {
       </div>
       {/* uploaad */}
       <div className="md:hidden">
-        <UploadBotton  />
+        <UploadBotton />
       </div>
       {/* subscription */}
       <div className="sidebar-collapased-item hover-eff">
@@ -27,9 +29,8 @@ function CollpasedSidebar() {
         Subscriptions
       </div>
       {/* user */}
-      <div className="sidebar-collapased-item hover-eff">
-        <HiOutlineUserCircle className="sidebar-logo" />
-        You
+      <div className="sidebar-collapased-item">
+        <UserButton />
       </div>
     </section>
   );

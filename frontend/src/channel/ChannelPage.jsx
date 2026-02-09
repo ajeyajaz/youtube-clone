@@ -6,7 +6,7 @@ import useChannel from "./useChannel";
 function ChannelPage() {
   const { handle } = useParams();
   const { data: channel, isLoading, error } = useChannel(handle);
-  console.log("handle:", handle);
+  
 
   if (isLoading) return <p>isLoading</p>;
   if (error) return <p>channel not found</p>;

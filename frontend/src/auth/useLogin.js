@@ -20,7 +20,7 @@ export default () => {
             localStorage.setItem('accessToken', response.data.token);
 
             const user = await apiClient.get('/auth/me');
-            dispatch(setUser(user));
+            dispatch(setUser(user.data));
             
             navigate('/');
         } catch (ex) {

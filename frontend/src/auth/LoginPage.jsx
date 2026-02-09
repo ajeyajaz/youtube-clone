@@ -5,6 +5,7 @@ import ErrorMessage from "../components/ErrorMessage";
 import ErrorToast from "../components/ErrorToast";
 import InputField from "./InputField";
 import useLogin from "./useLogin";
+import TopLoadingBar from '../components/TopLoadingBar'
 import { loginSchema } from "./validationSchema";
 
 function Login() {
@@ -22,7 +23,6 @@ function Login() {
     await login(data);
   }
 
-  if(isLoading) return <p>Loading...</p>
 
   return (
     <div className="min-h-screen flex flex-col gap-y-10 items-center justify-center bg-white text-black">
@@ -66,6 +66,7 @@ function Login() {
         </Link>
       </form>
       {error && <ErrorToast message={error} onClose={() => setError("")} />}
+      {isLoading && <TopLoadingBar/>}
     </div>
   );
 }

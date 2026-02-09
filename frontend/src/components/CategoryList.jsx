@@ -1,6 +1,7 @@
 import useCategories from '../hooks/useCategories';
 import { useDispatch, useSelector } from "react-redux";
 import {setCategory} from '../redux/slices/query.slice';
+import {useLocation} from 'react-router-dom'
 
 
 
@@ -8,9 +9,11 @@ export default function CategoryList() {
   const {data: categories, error} = useCategories();
   const categoryId = useSelector(state => state.query.category);
   const dispatch = useDispatch();
+  const {pathname} = useLocation();
   
+  const home = pathname === '/';
 
-  if(error) return null;
+  if(error || !home) return null;
   
 
   return (

@@ -5,6 +5,7 @@ import ErrorMessage from "../components/ErrorMessage";
 import ErrorToast from "../components/ErrorToast";
 import InputField from "./InputField";
 import useRegister from "./useRegister";
+import TopLoadingBar from "../components/TopLoadingBar";
 import { registerSchema } from "./validationSchema";
 
 function Register() {
@@ -26,8 +27,6 @@ function Register() {
   const onSubmit = async (data) => {
     await registerHandle(data);
   };
-
-  if (isLoading) return <p>loading....</p>;
 
   return (
     <div className="min-h-screen flex flex-col gap-y-10 items-center justify-center bg-white text-black">
@@ -82,6 +81,7 @@ function Register() {
       </form>
 
       {error && <ErrorToast message={error} onClose={() => setError("")} />}
+      {isLoading && <TopLoadingBar />}
     </div>
   );
 }

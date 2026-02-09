@@ -6,10 +6,13 @@ import VoiceButton from "./VoiceBotton";
 import UserButton from "./UserButton";
 import SignInButton from "./SignInButton";
 import { useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 function NavBar({ setExpandSidebar }) {
   const { isAuthenticated } = useSelector((state) => state.auth);
+
+  const { pathname } = useLocation();
+  const home = pathname === "/";
 
   return (
     <div className="flex justify-between gap-2">
@@ -28,17 +31,21 @@ function NavBar({ setExpandSidebar }) {
       </div>
 
       {/* mobile */}
-      <div className="flex gap-2 flex-1 sm:hidden">
-        <SearchBox />
-      </div>
+      {home && (
+        <div className="flex gap-2 flex-1 sm:hidden">
+          <SearchBox />
+        </div>
+      )}
 
       {/* Desktop / Tablet Search */}
-      <div className="hidden gap-3 flex-1 max-w-150 sm:flex">
-        <SearchBox />
-        <VoiceButton />
-      </div>
+      {home && (
+        <div className="hidden gap-3 flex-1 max-w-150 sm:flex">
+          <SearchBox />
+          <VoiceButton />
+        </div>
+      )}
 
-      <div className="hidden gap-3 sm:flex">
+      <div className="hidden gap-3 md:flex">
         <UploadBotton />
         {isAuthenticated ? <UserButton /> : <SignInButton />}
       </div>

@@ -12,7 +12,7 @@ function VideoSelector({ onChange }) {
   return (
     <>
       {/* preview */}
-      <div className="w-60 h-35  rounded-lg bg-blue-100 flex flex-col items-center justify-center overflow-hidden lg:w-sm">
+      <div className="w-60 h-20  rounded-lg bg-blue-100 flex flex-col items-center justify-center overflow-hidden lg:w-sm lg:h-35">
         {/* upload btn */}
         <label
           htmlFor="video"

@@ -16,12 +16,12 @@ export default function UserButton() {
           return navigate(`/channel/${user?.channel?.handle}`);
         }
     }
+    return navigate('users/login')
   }
   
   return (
       <button
         onClick={handleClick}
-        to='/profile'
         aria-label="User menu"
         className="
         w-9 h-9
