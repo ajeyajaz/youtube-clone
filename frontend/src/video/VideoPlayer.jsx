@@ -6,7 +6,7 @@ function VideoPlayer({ video }) {
         <video
           controls
           autoPlay
-          className="w-full rounded-xl bg-black"
+          className="w-full aspect-video bg-black"
           src={video.video?.url || ""}
         />
 

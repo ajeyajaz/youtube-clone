@@ -14,7 +14,7 @@ function commentCard({
   return (
     <div className="flex gap-3">
       <img
-        src={comment.user?.avatar?.url}
+        src={comment.user?.avatar?.url || `https://ui-avatars.com/api/?name=${comment.user?.userName}&size=128&background=0f0f0f&color=ffffff`}
         alt={comment.user?.userName}
         className="w-10 h-10 rounded-full object-cover"
       />
