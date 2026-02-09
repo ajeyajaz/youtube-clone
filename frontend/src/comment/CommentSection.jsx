@@ -14,8 +14,6 @@ function CommentSection({ videoId }) {
   const [posting, setPosting] = useState(false);
   const {user, isAuthenticated} = useSelector(state => state.auth);
 
-  console.log('isAuth', isAuthenticated)
-  
 
   const {
     data: comments,
@@ -37,6 +35,8 @@ function CommentSection({ videoId }) {
         comment: newComment.trim(),
       });
 
+      console.log('post comment', data);
+
       setComments([data, ...comments]);
     } catch (ex) {
       setError(ex.response?.data || "could not update comment.");
@@ -56,6 +56,7 @@ function CommentSection({ videoId }) {
         comment: editingText.trim(),
       });
       // update comments
+      console.log('updated: ', udpatedComment);
       setComments((prev) =>
         prev.map((p) => (p._id !== commentId ? p : udpatedComment)),
       );

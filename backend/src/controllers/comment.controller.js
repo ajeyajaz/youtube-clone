@@ -99,7 +99,11 @@ export async function updateComment(req, res, next) {
     }, {new: true});
     if(!comment) return res.status(404).send('comment not found.');
 
-    return res.status(200).json({...comment.toObject(), user: {userName: user.userName, avatar: user.avatar}});
+    return res.status(200).json({...comment.toObject(), user: {
+        _id: user._id,
+        userName: user.userName,
+        avatar: user.avatar}
+    });
 }
 
 export async function getComments(req, res, next) {

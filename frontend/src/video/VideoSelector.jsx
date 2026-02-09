@@ -1,11 +1,14 @@
+import { useState } from "react";
 import { MdVideoCall } from "react-icons/md";
 
-
 function VideoSelector({ onChange }) {
+  const [seletected, setSelected] = useState(false);
+
   const handleOnChange = (e) => {
     const file = e.target.files[0];
     if (!file) return;
 
+    setSelected(true);
     onChange?.(file);
   };
 
@@ -19,7 +22,11 @@ function VideoSelector({ onChange }) {
           className="text-sm text-blue-600"
           title="select  video"
         >
-          <MdVideoCall size={35} className="cursor-pointer"  />
+          {seletected ? (
+            "Selected"
+          ) : (
+            <MdVideoCall size={35} className="cursor-pointer" />
+          )}
         </label>
         <input
           className="hidden w-full h-full"

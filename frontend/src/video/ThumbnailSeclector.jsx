@@ -1,11 +1,14 @@
-import { HiOutlineUserCircle } from "react-icons/hi2";
+import { useState } from "react";
 import { FaRegImages } from "react-icons/fa";
 
 function ThumbnailSelector({ onChange }) {
+  const [seletected, setSelected] = useState(false);
+
   const handleOnChange = (e) => {
     const file = e.target.files[0];
     if (!file) return;
 
+    setSelected(true);
     onChange?.(file);
   };
 
@@ -19,7 +22,7 @@ function ThumbnailSelector({ onChange }) {
           className="text-sm text-blue-600 cursor-pointer"
           title="select  thumbnail"
         >
-          <FaRegImages size={35} />
+          {seletected ? "Selected" : <FaRegImages size={35} />}
         </label>
         <input
           className="hidden w-full h-full"

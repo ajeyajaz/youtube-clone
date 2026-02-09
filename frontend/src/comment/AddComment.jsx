@@ -5,8 +5,6 @@ function AddComment({ newComment, setNewComment, handlePostComment, posting, isA
   const disableSubmit  = posting || !isAuthenticated;
   
 
-  console.log('disable:', disableSubmit);
-
   return (
     <div className="flex items-center gap-3 mb-6">
       <input
