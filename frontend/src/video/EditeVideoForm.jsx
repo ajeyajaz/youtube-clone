@@ -88,7 +88,12 @@ function EditVideoForm({ video, onClose, onUpdated }) {
             <ErrorMessage message={errors.category.message} />
           )}
 
+          <label htmlFor="thumbnail">
+            Choose thumbnail
+          </label>
           <input
+            id="thumbnail"
+            className="hidden"
             type="file"
             accept="image/*"
             onChange={(e) => setThumbnail(e.target.files[0])}
