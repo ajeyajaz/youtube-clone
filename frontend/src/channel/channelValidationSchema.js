@@ -1,6 +1,6 @@
 import joi from 'joi'
 
-export const channelSchema = joi.object({
+export default joi.object({
         name: joi.string().trim().min(3).max(255).required(),
         handle: joi.
             string().

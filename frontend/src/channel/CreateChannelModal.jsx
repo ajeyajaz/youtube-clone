@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import AvatarSelector from "./AvatarSelector";
-import { channelSchema } from "./validationSchema";
+import AvatarSelector from "../profile/AvatarSelector";
+import channelSchema from "./channelValidationSchema";
 import { joiResolver } from "@hookform/resolvers/joi";
 import ErrorMessage from "../components/ErrorMessage";
 

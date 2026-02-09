@@ -1,6 +1,7 @@
 import { useState } from "react";
 import VideoCard from "../video/VideoCard";
 import { useSelector } from "react-redux";
+import NoVideos from "../components/NoVidoes";
 
 
 function ChannelBody({ channel }) {
@@ -18,6 +19,8 @@ function ChannelBody({ channel }) {
       prev.map((v) => (v._id === updatedVideo._id ? updatedVideo : v)),
     );
   };
+
+  if(videos.length === 0) return <NoVideos/>
 
   return (
     <>
