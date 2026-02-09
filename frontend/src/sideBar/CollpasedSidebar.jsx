@@ -1,6 +1,5 @@
 import { CiYoutube } from "react-icons/ci";
 import { GoHome } from "react-icons/go";
-import { HiOutlineUserCircle } from "react-icons/hi2";
 import { TbBrandYoutubeKids as YoutubeShorts } from "react-icons/tb";
 import UploadBotton from "../video/UploadBotton";
 import UserButton from "../components/UserButton";

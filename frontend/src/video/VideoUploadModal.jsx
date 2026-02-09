@@ -2,34 +2,31 @@ import { joiResolver } from "@hookform/resolvers/joi";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useSelector } from "react-redux";
-import { useNavigate } from 'react-router-dom';
 import CategoryDropdown from "../components/CategoryDropdown";
 import ErrorMessage from "../components/ErrorMessage";
-import ErrorToast from '../components/ErrorToast';
-import PostIndicator from '../components/PostIndicator';
-import TopLoadingBar from '../components/TopLoadingBar';
+import ErrorToast from "../components/ErrorToast";
+import PostIndicator from "../components/PostIndicator";
+import TopLoadingBar from "../components/TopLoadingBar";
 import videoService from "../services/video-service";
 import ThumbnailSelector from "./ThumbnailSeclector";
 import VideoSelector from "./VideoSelector";
 import videoValidationSchema from "./videoValidationSchema";
 import SuccessMessage from "../components/SuccessMessage";
 
-function CreateVideoModal({onClose}) {
-
+function CreateVideoModal({ onClose }) {
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm({resolver: joiResolver(videoValidationSchema)});
+  } = useForm({ resolver: joiResolver(videoValidationSchema) });
 
   const [thumbnail, setThumbnail] = useState(null);
   const [video, setVideo] = useState(null);
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
   const [posting, setPosting] = useState(false);
   const [uploaded, setUploded] = useState(false);
-  const navigate = useNavigate();
 
-  const {user} = useSelector((state) => state.auth);
+  const { user } = useSelector((state) => state.auth);
 
   const handelUploadThumbnail = (file) => {
     setThumbnail(file);
@@ -41,17 +38,20 @@ function CreateVideoModal({onClose}) {
 
   // upload
   const onSubmit = async (data) => {
-    if(!thumbnail){
-      setError('thumbnail required.')
-      return
+    if (!thumbnail) {
+      setError("thumbnail required.");
+      return;
     }
-    if(!video){
-      setError('video required.')
-      return
+    if (!video) {
+      setError("video required.");
+      return;
     }
     const form = new FormData();
 
-    form.append("videoInfo", JSON.stringify({...data, channel: user.channel?._id}));
+    form.append(
+      "videoInfo",
+      JSON.stringify({ ...data, channel: user.channel?._id }),
+    );
     form.append("video", video);
     form.append("thumbnail", thumbnail);
 
@@ -60,18 +60,19 @@ function CreateVideoModal({onClose}) {
       await videoService.post(form);
       setUploded(true);
     } catch (ex) {
-      setError(ex.response?.data || 'something went wrong.')
-    } 
-    finally{
-      setTimeout(() => {onClose();}, 2000)
+      setError(ex.response?.data || "something went wrong.");
+    } finally {
+      setTimeout(() => {
+        onClose();
+      }, 2000);
       setPosting(false);
       setVideo(null);
       setThumbnail(null);
     }
-  }
+  };
 
   return (
-    <section className="fixed inset-0 z-50 flex items-center justify-center bg-black/60">
+    <section className="fixed inset-0 z-50 flex items-center justify-center">
       <div className="w-full max-h-max max-w-md bg-white rounded-xl p-6 space-y-5 text-black lg:max-w-xl">
         {/* Title */}
         <h2 className="text-lg font-semibold">Upload video</h2>
@@ -79,9 +80,8 @@ function CreateVideoModal({onClose}) {
         {/* files selector */}
         <div className="flex flex-col items-center gap-2">
           <VideoSelector onChange={handelUploadIVideo} />
-          <ThumbnailSelector onChange={handelUploadThumbnail}/>
+          <ThumbnailSelector onChange={handelUploadThumbnail} />
         </div>
-        
 
         <form className="space-y-3" onSubmit={handleSubmit(onSubmit)}>
           {/* name */}
@@ -103,12 +103,16 @@ function CreateVideoModal({onClose}) {
               className="w-full border rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
               {...register("description")}
             />
-            {errors.description && <ErrorMessage message={errors.description.message} />}
+            {errors.description && (
+              <ErrorMessage message={errors.description.message} />
+            )}
           </div>
 
           {/* Category */}
           <CategoryDropdown {...register("category")} />
-          {errors.category && <ErrorMessage message={errors.category.message} />}
+          {errors.category && (
+            <ErrorMessage message={errors.category.message} />
+          )}
 
           {/* actions */}
           <div className="flex justify-end gap-3 pt-2">
@@ -123,15 +127,21 @@ function CreateVideoModal({onClose}) {
               type="submit"
               className="px-4 py-2 text-sm rounded-full bg-blue-600 text-white hover:bg-blue-700"
             >
-              {posting ? <PostIndicator/> : 'upload'}
+              {posting ? <PostIndicator /> : "upload"}
             </button>
           </div>
         </form>
       </div>
-      {posting && <TopLoadingBar/>}
-      { uploaded &&  <SuccessMessage  message='uploaded successfully.' onClose={()=> setUploded(false)}/>}
+      {posting && <TopLoadingBar />}
+      {uploaded && (
+        <SuccessMessage
+          message="uploaded successfully."
+          onClose={() => setUploded(false)}
+        />
+      )}
+      {error && <ErrorToast message={error} onClose={() => setError("")} />}
     </section>
   );
 }
 
-export default CreateVideoModal
+export default CreateVideoModal;

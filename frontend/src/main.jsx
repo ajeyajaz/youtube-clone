@@ -12,6 +12,7 @@ import ChannelPage from './channel/ChannelPage'
 import WatchVideoPage from './video/VideoPage'
 import AuthInitializer from './auth/AuthInitializer'
 import UserProfile from './profile/UserProfile.jsx'
+import NotFound  from './components/NotFound.jsx'
 
 const router = createBrowserRouter([
     {
@@ -35,6 +36,10 @@ const router = createBrowserRouter([
       path: "/videos/:videoId", 
       element:<WatchVideoPage />
     },
+    {
+      path: '*',
+      element: <NotFound/>
+    }
   ]);
 
 createRoot(document.getElementById('root')).render(
