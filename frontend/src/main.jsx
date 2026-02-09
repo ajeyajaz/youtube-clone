@@ -8,10 +8,10 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { store } from './redux/store'
 import { Provider } from 'react-redux'
 import VideoGrid from './video/VideoGrid'
-import Profile from './profile/Profile'
 import ChannelPage from './channel/ChannelPage'
 import WatchVideoPage from './video/VideoPage'
 import AuthInitializer from './auth/AuthInitializer'
+import UserProfile from './profile/UserProfile.jsx'
 
 const router = createBrowserRouter([
     {
@@ -19,7 +19,7 @@ const router = createBrowserRouter([
      element: <App/>,
      children: [
       { index: true, element: <VideoGrid/>},
-      {path: 'profile', element: <Profile/> },
+      {path: 'profile', element: <UserProfile/> },
       {path: 'channel/:handle', element: <ChannelPage/>},
      ]
     },
