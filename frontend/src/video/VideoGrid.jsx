@@ -1,11 +1,13 @@
 import useVideos from "../hooks/useVideos";
 import VideoCard from "./VideoCard";
 import TopLoadingBar from "../components/TopLoadingBar";
+import NoVideos, {} from '../components/NoVidoes'
 
 function VideoGrid() {
   const { data: videos, error, isLoading } = useVideos();
 
   if (error) return <p>{error}</p>;
+  if(!isLoading && videos.length === 0) return <NoVideos/>
 
   return (
     <>

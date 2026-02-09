@@ -1,91 +1,120 @@
 // src/components/EditVideoForm.jsx
 import { useState } from "react";
-import { updateVideo } from "../services/videoService";
+import CategoryDropdown from "../components/CategoryDropdown";
+import { useForm } from "react-hook-form";
+import videoSchema from "./videoValidationSchema";
+import { joiResolver } from "@hookform/resolvers/joi";
+import ErrorMessage from "../components/ErrorMessage";
+import ErrorToast from "../components/ErrorToast";
+import PostIndicator from "../components/PostIndicator";
+import TopLoadingBar from "../components/TopLoadingBar";
+import videoService from "../services/video-service";
 
 function EditVideoForm({ video, onClose, onUpdated }) {
-  const [title, setTitle] = useState(video.title);
-  const [description, setDescription] = useState(video.description);
-  const [category, setCategory] = useState(video.category);
   const [thumbnail, setThumbnail] = useState(null);
-  const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [posting, setPosting] = useState(false);
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setLoading(true);
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({ resolver: joiResolver(videoSchema) });
+
+  const onSubmit = async (data) => {
+    setPosting(true);
     setError("");
 
-    try {
-      const { data } = await updateVideo({
-        videoId: video._id,
-        title,
-        description,
-        category,
-        thumbnail,
-      });
+    const form = new FormData();
+    form.append('videoInfo', JSON.stringify(data));
+    
+    if(thumbnail)
+        form.append('thumbnail', thumbnail);
 
-      onUpdated(data);
+    try {
+      const { data: result } = await videoService.put(video._id,form);
+      onUpdated(result);
+
       onClose();
     } catch (ex) {
       setError(ex.response?.data || "Update failed");
     } finally {
-      setLoading(false);
+      setPosting(false);
     }
   };
 
   return (
-    <form onSubmit={handleSubmit} onClick={(e) => e.stopPropagation()} className="space-y-4">
-      {error && <p className="text-red-500 text-sm">{error}</p>}
-
-      <input
-        className="w-full p-2 bg-neutral-900 rounded"
-        value={title}
-        onChange={(e) => setTitle(e.target.value)}
-        placeholder="Title"
-      />
-
-      <textarea
-        className="w-full p-2 bg-neutral-900 rounded"
-        value={description}
-        onChange={(e) => setDescription(e.target.value)}
-        placeholder="Description"
-      />
-
-      <input
-        className="w-full p-2 bg-neutral-900 rounded"
-        value={category}
-        onChange={(e) => setCategory(e.target.value)}
-        placeholder="Category ID"
-      />
-
-      <input
-        type="file"
-        accept="image/*"
-        onChange={(e) => setThumbnail(e.target.files[0])}
-      />
-
-      <div className="flex gap-3">
-        <button
-          type="submit"
-          disabled={loading}
+    <div
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black/60"
+      onClick={(e) => {
+        e.stopPropagation();
+        onClose();
+      }}
+    >
+      <div className="w-full max-h-max max-w-md bg-white rounded-xl p-6 space-y-5 text-black lg:max-w-xl">
+        <form
+          className="space-y-3"
+          onSubmit={handleSubmit(onSubmit)}
           onClick={(e) => e.stopPropagation()}
-          className="px-4 py-2 bg-blue-600 rounded"
         >
-          {loading ? "Updating..." : "Update"}
-        </button>
+          {/* name */}
+          <div>
+            <input
+              type="text"
+              placeholder="Tittle"
+              className="w-full border rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+              {...register("title")}
+            />
+            {errors.title && <ErrorMessage message={errors.title.message} />}
+          </div>
 
-        <button
-          type="button"
-          onClick={(e)=> {
-            e.stopPropagation();
-            onClose();
-          }}
-          className="px-4 py-2 bg-neutral-700 rounded"
-        >
-          Cancel
-        </button>
+          {/* Description */}
+          <div>
+            <textarea
+              type="text"
+              placeholder="Desctiption"
+              className="w-full border rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+              {...register("description")}
+            />
+            {errors.description && (
+              <ErrorMessage message={errors.description.message} />
+            )}
+          </div>
+
+          {/* Category */}
+          <CategoryDropdown {...register("category")} />
+          {errors.category && (
+            <ErrorMessage message={errors.category.message} />
+          )}
+
+          <input
+            type="file"
+            accept="image/*"
+            onChange={(e) => setThumbnail(e.target.files[0])}
+          />
+
+          {/* actions */}
+          <div className="flex justify-end gap-3 pt-2">
+            <button
+              onClick={onClose}
+              className="px-4 py-2 text-sm rounded-full hover:bg-gray-100"
+            >
+              Cancel
+            </button>
+
+            <button
+              type="submit"
+              className="px-4 py-2 text-sm rounded-full bg-blue-600 text-white hover:bg-blue-700"
+            >
+              {posting ? <PostIndicator /> : "update"}
+            </button>
+          </div>
+        </form>
+        {posting && <TopLoadingBar />}
+        {error && <ErrorToast message={error} onClose={() => setError("")} />}
       </div>
-    </form>
+    </div>
   );
 }
 

@@ -45,7 +45,7 @@ function VideoCard({ video, isOwner, isChannelPage, onDeleted, onUpdated }) {
       {/* Info */}
       <div className="relative mt-2 flex gap-3 px-2 pb-4 md:px-0 md:pb-0">
         {!isChannelPage && (
-          <CircleImage src={video.channel.owner.avatar.url} w={10} h={10} />
+          <CircleImage src={video.channel.owner.avatar?.url || "https://www.gravatar.com/avatar/?d=mp"} w={10} h={10} />
         )}
 
         <div className="flex-1">

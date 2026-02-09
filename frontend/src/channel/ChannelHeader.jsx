@@ -1,3 +1,4 @@
+import { HiOutlineBell } from "react-icons/hi";
 import { HiCheckBadge } from "react-icons/hi2";
 import { useSelector } from "react-redux";
 
@@ -46,7 +47,7 @@ function ChannelHeader({ channel }) {
             </div>
 
             <p className="text-sm text-neutral-400">
-              @{channel?.handle} · {channel?.subscribers} subscribers ·{" "}
+              {channel?.handle} · {channel?.subscribers} subscribers ·{" "}
               {channel?.videosCount || 0} videos
             </p>
 

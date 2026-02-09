@@ -110,6 +110,8 @@ export async function updateVideo(req, res, next) {
             return res.status(400).send('thumbnail file type is not valid.');
     }
 
+    console.log('req', req.body.videoInfo);
+
     const { error, value } = validateUpdateVideo(
         JSON.parse(req.body.videoInfo)
     );
