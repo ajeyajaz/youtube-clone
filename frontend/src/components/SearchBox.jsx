@@ -25,7 +25,7 @@ export default function SearchBox() {
         "
       >
         <input
-          type="text"
+          type="search"
           placeholder="Search"
           className="
             flex-1 h-full px-4 text-sm
@@ -33,7 +33,9 @@ export default function SearchBox() {
             outline-none
           "
           value={searchText}
-          onChange={(e) => setSearchText(e.target.value)}
+          onChange={(e) => {
+            setSearchText(e.target.value)
+          }}
         />
 
         <button
