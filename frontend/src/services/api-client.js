@@ -2,7 +2,7 @@ import axios from 'axios';
 
 
 const apiClient = axios.create({
-    baseURL: 'http://localhost:4000',
+    baseURL: 'https://video-stream-platform.onrender.com',
     withCredentials: true,
 });
 
