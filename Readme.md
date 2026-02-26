@@ -2,9 +2,6 @@
 
 A full‑stack **YouTube‑like video streaming platform** built using the **MERN stack**. This project supports user authentication, video upload & streaming, channels, comments, and responsive UI.
 
----
-DEMO VIDEO : https://drive.google.com/file/d/14IHnrXWy2D1qsh_SxsFOjzVpvjP4z6JY/view?usp=drive_link
-
 ## 🚀 Features
 
 ### 👤 Authentication
